@@ -1,0 +1,17 @@
+[
+    {
+      "name": "C",
+      "atom_num": 6,
+      "radius": 1.28501
+    },
+    {
+      "name": "H",
+      "atom_num": 1,
+      "radius": 0.43464
+    },
+    {
+      "name": "O",
+      "atom_num": 8,
+      "radius": 1.28501
+    }
+  ]

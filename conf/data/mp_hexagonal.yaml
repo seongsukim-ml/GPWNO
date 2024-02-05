@@ -1,0 +1,84 @@
+# train_max_epochs: 20
+train_max_iter: 10000 # step
+early_stopping_patience: 1000
+
+num_workers: 0 # Should be 0 or it takes too much time / Stupid Lightning bug
+pin_memory: True
+batch_size: 32
+lattice: "hexagonal"
+n_atom_type: 85
+
+# triclinic 85
+# monoclinic 85
+# orthorhombic 87
+# tetragonal 87
+# trigonal 86
+# hexagonal 85
+# cubic 87
+# mixed 86
+
+root: /home/holywater2/crystal/dataset_mp_mixed
+split_file: mp_${data.lattice}_split.json
+# split_file: cubic_data_split.json
+atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/mp_${data.lattice}_atom_info.json
+extension: chgcar
+compression: Null
+rotate: false
+pbc: false
+
+datamodule:
+  _target_: source.datamodule.datamodule.CrystalDatamodule
+  collate_fn: 
+    _target_: source.datasets.collator.DensityCollator
+
+  datasets:
+    train:
+      _target_: source.datasets.density.DensityDataset
+      split : train
+      n_samples: 1024
+      shuffle: true
+      root: ${data.root}
+      split_file: ${data.split_file}
+      atom_file: ${data.atom_file}
+      extension: ${data.extension}
+      compression: ${data.compression}
+      # rotate: ${data.rotate}
+      pbc: ${data.pbc}
+  
+
+    val:
+      _target_: source.datasets.density.DensityDataset
+      split : validation
+      n_samples: 2048
+      shuffle: False
+      root: ${data.root}
+      split_file: ${data.split_file}
+      atom_file: ${data.atom_file}
+      extension: ${data.extension}
+      compression: ${data.compression}
+      # rotate: ${data.rotate}
+      pbc: ${data.pbc}
+
+
+    test:
+      _target_: source.datasets.density.DensityDataset
+      split : test
+      n_samples: Null
+      shuffle: False
+      root: ${data.root}
+      split_file: ${data.split_file}
+      atom_file: ${data.atom_file}
+      extension: ${data.extension}
+      compression: ${data.compression}
+      rotate: ${data.rotate}
+      pbc: ${data.pbc}
+
+  num_workers:
+    train: ${data.num_workers}
+    val: ${data.num_workers}
+    test: ${data.num_workers}
+
+  batch_size:
+    train: ${data.batch_size}
+    val: ${data.batch_size}
+    test: 1

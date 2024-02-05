@@ -1,0 +1,422 @@
+[
+  {
+    "name": "O",
+    "atom_num": 8,
+    "radius": 1.28501
+  },
+  {
+    "name": "Li",
+    "atom_num": 3,
+    "radius": 1.28501
+  },
+  {
+    "name": "K",
+    "atom_num": 19,
+    "radius": 2.51334
+  },
+  {
+    "name": "Mg",
+    "atom_num": 12,
+    "radius": 2.0787
+  },
+  {
+    "name": "Al",
+    "atom_num": 13,
+    "radius": 2.55113
+  },
+  {
+    "name": "F",
+    "atom_num": 9,
+    "radius": 1.20943
+  },
+  {
+    "name": "Na",
+    "atom_num": 11,
+    "radius": 1.83304
+  },
+  {
+    "name": "Rb",
+    "atom_num": 37,
+    "radius": 2.7779
+  },
+  {
+    "name": "Cu",
+    "atom_num": 29,
+    "radius": 2.87238
+  },
+  {
+    "name": "In",
+    "atom_num": 49,
+    "radius": 3.08025
+  },
+  {
+    "name": "Cs",
+    "atom_num": 55,
+    "radius": 3.15584
+  },
+  {
+    "name": "Cl",
+    "atom_num": 17,
+    "radius": 1.87083
+  },
+  {
+    "name": "Zn",
+    "atom_num": 30,
+    "radius": 2.7401
+  },
+  {
+    "name": "Ni",
+    "atom_num": 28,
+    "radius": 2.83459
+  },
+  {
+    "name": "N",
+    "atom_num": 7,
+    "radius": 1.28501
+  },
+  {
+    "name": "Ag",
+    "atom_num": 47,
+    "radius": 3.00467
+  },
+  {
+    "name": "Tl",
+    "atom_num": 81,
+    "radius": 2.92908
+  },
+  {
+    "name": "Au",
+    "atom_num": 79,
+    "radius": 2.83459
+  },
+  {
+    "name": "Ga",
+    "atom_num": 31,
+    "radius": 2.30547
+  },
+  {
+    "name": "Rh",
+    "atom_num": 45,
+    "radius": 2.7401
+  },
+  {
+    "name": "Hg",
+    "atom_num": 80,
+    "radius": 3.21254
+  },
+  {
+    "name": "Cd",
+    "atom_num": 48,
+    "radius": 3.19364
+  },
+  {
+    "name": "Pd",
+    "atom_num": 46,
+    "radius": 2.83459
+  },
+  {
+    "name": "Sb",
+    "atom_num": 51,
+    "radius": 2.759
+  },
+  {
+    "name": "Co",
+    "atom_num": 27,
+    "radius": 2.51334
+  },
+  {
+    "name": "Mn",
+    "atom_num": 25,
+    "radius": 2.55113
+  },
+  {
+    "name": "Fe",
+    "atom_num": 26,
+    "radius": 2.53223
+  },
+  {
+    "name": "Sn",
+    "atom_num": 50,
+    "radius": 2.759
+  },
+  {
+    "name": "Si",
+    "atom_num": 14,
+    "radius": 2.26767
+  },
+  {
+    "name": "Y",
+    "atom_num": 39,
+    "radius": 3.36371
+  },
+  {
+    "name": "Ru",
+    "atom_num": 44,
+    "radius": 2.64562
+  },
+  {
+    "name": "Ca",
+    "atom_num": 20,
+    "radius": 1.87083
+  },
+  {
+    "name": "Sc",
+    "atom_num": 21,
+    "radius": 2.72121
+  },
+  {
+    "name": "Ir",
+    "atom_num": 77,
+    "radius": 2.49444
+  },
+  {
+    "name": "Ti",
+    "atom_num": 22,
+    "radius": 2.7779
+  },
+  {
+    "name": "Ba",
+    "atom_num": 56,
+    "radius": 2.53223
+  },
+  {
+    "name": "Br",
+    "atom_num": 35,
+    "radius": 2.28657
+  },
+  {
+    "name": "Bi",
+    "atom_num": 83,
+    "radius": 2.91018
+  },
+  {
+    "name": "Ge",
+    "atom_num": 32,
+    "radius": 2.21098
+  },
+  {
+    "name": "Pt",
+    "atom_num": 78,
+    "radius": 2.83459
+  },
+  {
+    "name": "Yb",
+    "atom_num": 70,
+    "radius": 3.66607
+  },
+  {
+    "name": "S",
+    "atom_num": 16,
+    "radius": 1.92752
+  },
+  {
+    "name": "Sr",
+    "atom_num": 38,
+    "radius": 2.11649
+  },
+  {
+    "name": "La",
+    "atom_num": 57,
+    "radius": 3.53379
+  },
+  {
+    "name": "C",
+    "atom_num": 6,
+    "radius": 1.28501
+  },
+  {
+    "name": "Nd",
+    "atom_num": 60,
+    "radius": 3.42041
+  },
+  {
+    "name": "Tm",
+    "atom_num": 69,
+    "radius": 3.25033
+  },
+  {
+    "name": "Lu",
+    "atom_num": 71,
+    "radius": 3.25033
+  },
+  {
+    "name": "Er",
+    "atom_num": 68,
+    "radius": 3.26923
+  },
+  {
+    "name": "Ho",
+    "atom_num": 67,
+    "radius": 3.28812
+  },
+  {
+    "name": "Ce",
+    "atom_num": 58,
+    "radius": 3.4582
+  },
+  {
+    "name": "V",
+    "atom_num": 23,
+    "radius": 2.51334
+  },
+  {
+    "name": "As",
+    "atom_num": 33,
+    "radius": 2.28657
+  },
+  {
+    "name": "Zr",
+    "atom_num": 40,
+    "radius": 2.94797
+  },
+  {
+    "name": "Sm",
+    "atom_num": 62,
+    "radius": 3.40151
+  },
+  {
+    "name": "Pr",
+    "atom_num": 59,
+    "radius": 3.4393
+  },
+  {
+    "name": "Dy",
+    "atom_num": 66,
+    "radius": 3.30702
+  },
+  {
+    "name": "I",
+    "atom_num": 53,
+    "radius": 2.64562
+  },
+  {
+    "name": "B",
+    "atom_num": 5,
+    "radius": 1.56847
+  },
+  {
+    "name": "Cr",
+    "atom_num": 24,
+    "radius": 2.55113
+  },
+  {
+    "name": "P",
+    "atom_num": 15,
+    "radius": 1.4173
+  },
+  {
+    "name": "Pb",
+    "atom_num": 82,
+    "radius": 2.91018
+  },
+  {
+    "name": "Ta",
+    "atom_num": 73,
+    "radius": 2.70231
+  },
+  {
+    "name": "Os",
+    "atom_num": 76,
+    "radius": 2.58893
+  },
+  {
+    "name": "Nb",
+    "atom_num": 41,
+    "radius": 2.7968
+  },
+  {
+    "name": "Pm",
+    "atom_num": 61,
+    "radius": 3.40151
+  },
+  {
+    "name": "Se",
+    "atom_num": 34,
+    "radius": 2.30547
+  },
+  {
+    "name": "H",
+    "atom_num": 1,
+    "radius": 0.43464
+  },
+  {
+    "name": "Hf",
+    "atom_num": 72,
+    "radius": 2.96687
+  },
+  {
+    "name": "Be",
+    "atom_num": 4,
+    "radius": 0.6614
+  },
+  {
+    "name": "Eu",
+    "atom_num": 63,
+    "radius": 3.76056
+  },
+  {
+    "name": "Mo",
+    "atom_num": 42,
+    "radius": 2.7779
+  },
+  {
+    "name": "Tb",
+    "atom_num": 65,
+    "radius": 3.32592
+  },
+  {
+    "name": "Gd",
+    "atom_num": 64,
+    "radius": 3.38261
+  },
+  {
+    "name": "Te",
+    "atom_num": 52,
+    "radius": 2.7779
+  },
+  {
+    "name": "Tc",
+    "atom_num": 43,
+    "radius": 2.55113
+  },
+  {
+    "name": "W",
+    "atom_num": 74,
+    "radius": 2.58893
+  },
+  {
+    "name": "Re",
+    "atom_num": 75,
+    "radius": 2.55113
+  },
+  {
+    "name": "U",
+    "atom_num": 92,
+    "radius": 2.98577
+  },
+  {
+    "name": "Ac",
+    "atom_num": 89,
+    "radius": 3.55269
+  },
+  {
+    "name": "Th",
+    "atom_num": 90,
+    "radius": 3.38261
+  },
+  {
+    "name": "Pa",
+    "atom_num": 91,
+    "radius": 3.04246
+  },
+  {
+    "name": "Pu",
+    "atom_num": 94,
+    "radius": 2.89128
+  },
+  {
+    "name": "Np",
+    "atom_num": 93,
+    "radius": 2.92908
+  }
+]

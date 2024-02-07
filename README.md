@@ -36,7 +36,7 @@ pip install e3nn
 ```
 
 
-
+---
 ## Dataset
 
 Dataset QM9, MP, MD are not included in the repositary since the size of datasets are too large.
@@ -93,6 +93,7 @@ python scripts/MP/download_mp.py
 Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp_mixed` with the data split we attach.
 FYI, it took about 7days to download all for me.
 
+---
 ## Running the code
 
 Before run the code, you have to modify the `.env` files as proper directory in your system.

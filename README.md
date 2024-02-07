@@ -33,9 +33,6 @@ pip install e3nn
 ├── scripts                     # Shorts snippets
 ├── run.py                      # Main file for running the files
 └── README.md
-.
-└── assets, configs, models, datasets # unused / Trace of InfGCN
-
 ```
 
 

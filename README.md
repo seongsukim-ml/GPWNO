@@ -103,6 +103,7 @@ And also you have to fix the path of the configure in the `conf/data`.
 
 ### MD
 ```
+# can specify the molecular name
 python run.py --config-name=md \
     model=GPWNO_MD \
     data.num_workers=32 \
@@ -115,17 +116,18 @@ python run.py --config-name=md \
 python run.py --config-name=qm9 \
     model=GPWNO_QM9 \
     data.num_workers=32 \
-    data.num_test_samples=1600 \
     logging=draw \
 ```
 
 ### MP
 ```
+# default is mixed
 python run.py --config-name=mp \
     model=GPWNO_pbc \
     data.num_workers=32 \
     logging=draw
 
+# specify the lattice type
 python run.py --config-name=mp \
     model=GPWNO_pbc \
     data=mp_tetragonal \

@@ -22,18 +22,16 @@ pip install e3nn
 ## Directory and Files
 ```
 .
-├── conf                       # Training configurations
-├── source                     # Source files 
+├── conf                        # Training configurations
+├── source                      # Source files 
 │   ├── baseline (optional)             
 │   ├── common                 
 │   ├── datamodule             
 │   ├── datasets               
-│   └── models (✈)            # Models are here
-│       └── GPWNO.py (⭐)   # Our Architecture
-├── scripts                  # Shorts snippets
-├── run.py                     # Main file for running the files
-├── run.py                     # Main file for running the files
-├── run.py                     # Main file for running the files
+│   └── models (✈)              # Models are here
+│       └── GPWNO.py (⭐)       # Our Architecture
+├── scripts                     # Shorts snippets
+├── run.py                      # Main file for running the files
 └── README.md
 .
 └── assets, configs, models, datasets # unused / Trace of InfGCN

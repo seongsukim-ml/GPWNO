@@ -14,7 +14,7 @@ from e3nn.nn import FullyConnectedNet, Extract, Activation
 from source.models.orbital import GaussianOrbital
 from source.models.infgcn_utils import *
 from source.models.FNO_utils import *
-from source.models.interface_with_log2 import InfGCN_interface
+from source.models.interface_with_log import InfGCN_interface
 
 def pbc_vec(vec, cell):
     """

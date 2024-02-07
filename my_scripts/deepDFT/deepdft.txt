@@ -1,0 +1,369 @@
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=7 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=6 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=5 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=4 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=5 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="orthorhombic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=2 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="orthorhombic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=1 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="orthorhombic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=0 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="orthorhombic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=7 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="cubic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=0 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="cubic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+###############################
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=7 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="monoclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=6 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="monoclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=5 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="monoclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=4 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="monoclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=3 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="hexagonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=2 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="hexagonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=1 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="hexagonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=0 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="hexagonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+## Svr6
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=3 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="tetragonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=2 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="tetragonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=1 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="tetragonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=0 python run.py \
+--config-name=mp_mixed \
+train.random_seed=1 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="tetragonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=2 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="trigonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=5 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="trigonal" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=4 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="triclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=True
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=6 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=mp_lattice_deepDFT data.lattice="triclinic" \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False
+
+
+
+
+
+
+# Testing
+
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=6 python run.py \
+--config-name=mp_mixed \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+data.train_max_iter=5 \
+logging=test \
+model.num_interactions=1 \
+model.hidden_state_size=64 \
+model.cutoff=3.0 \
+train=test \
+data.num_workers=16
+

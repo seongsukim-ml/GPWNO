@@ -1,0 +1,628 @@
+##### QM9 #####
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=qm9 \
+    postfix=prod_EF \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.product=True
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=qm9 \
+    postfix=prod_EF \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.product=True
+
+CUDA_VISIBLE_DEVICES=4 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=qm9 \
+    postfix=mc15 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.max_cell_size=15
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=qm9 \
+    postfix=sharing \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v2 \
+    model.model_sharing=False \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.5
+
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v2 \
+    model.prod=True \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.5
+
+
+$$ SVR9
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.probe_cutoff=2 \
+    model.grid_cutoff=1 
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=4 \
+    model.num_fourier=12 \
+    model.probe_cutoff=4 \
+    model.grid_cutoff=1
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=5 \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.25
+
+CUDA_VISIBLE_DEVICES=4 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=5 \
+    model.num_fourier=12 \
+    model.probe_cutoff=1.5 \
+    model.grid_cutoff=0.75
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=5 \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.25
+
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=3.5 \
+    model.num_fourier=12 \
+    model.probe_cutoff=3.5 \
+    model.grid_cutoff=1
+
+CUDA_VISIBLE_DEVICES=1 python run.py --config-name=qm9 \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=2.5 \
+    model.num_fourier=14 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1
+
+CUDA_VISIBLE_DEVICES=0 python run.py --config-name=qm9 \
+    postfix=Res \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=5 \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.1 \
+    model.residual=True
+
+$$ svr6
+
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
+    postfix=Res \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v2-2 \
+    model.residual=True \
+    model.grid_cutoff=1.5
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=qm9 \
+    postfix=Res \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v2-2 \
+    model.residual=True \
+    model.grid_cutoff=1.5 \
+    model.num_fourier=16 \
+    model.padding=8
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=qm9 \
+    postfix=Res \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v1 \
+    model.residual=True \
+    model.cutoff=3 \
+    model.num_fourier=12 \
+    model.probe_cutoff=3 \
+    model.grid_cutoff=1.1 \
+    model.residual=True
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=qm9 \
+    postfix=Res \
+    train=NO \
+    data.rotate=True \
+    data.num_test_samples=20 \
+    logging=draw \
+    model=RNO_QM9_v2-2 \
+    model.residual=True \
+    model.grid_cutoff=1.5 \
+    model.num_fourier=12
+
+
+######### MD ###########
+
+CUDA_VISIBLE_DEVICES=1 python run.py --config-name=md \
+    train=NO \
+    model=RNO_MD_v1 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=md \
+    train=NO \
+    postfix=sp4 \
+    model=infgcn \
+    model.num_spherical=4 \
+    model.cutoff=3 \
+    logging=draw \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=md \
+    train=NO \
+    postfix=sp5 \
+    model=infgcn \
+    model.num_spherical=5 \
+    model.cutoff=3 \
+    logging=draw \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=md \
+    train=NO \
+    postfix=sp6 \
+    model=infgcn \
+    model.num_spherical=6 \
+    model.cutoff=3 \
+    logging=draw \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=4 python run.py \
+    postfix=rep_sp4 \
+    data.num_workers=32 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    optim=fixed
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=md \
+    train=NO \
+    postfix=sp3_gc3 \
+    model=infgcn \
+    logging=draw \
+    model.num_spherical=3 \
+    model.cutoff=3 \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=md \
+    train=NO \
+    postfix=sp4_gc3 \
+    model=infgcn \
+    logging=draw \
+    model.num_spherical=4 \
+    model.cutoff=3 \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=0 python run.py \
+    postfix=rep_sp3 \
+    data.num_workers=32 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    optim=fixed
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=md \
+    train=NO \
+    postfix=sp2_gc3 \
+    model=infgcn \
+    model.num_spherical=2 \
+    model.cutoff=3 \
+    logging=draw \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=md \
+    train=NO \
+    postfix=sp4_gc3 \
+    model=infgcn \
+    logging=draw \
+    model.num_spherical=4 \
+    model.cutoff=3 \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=4 python run.py --config-name=md \
+    train=NO \
+    postfix=sp1_gc3 \
+    model=infgcn \
+    logging=draw \
+    model.num_spherical=1 \
+    model.cutoff=3 \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=md \
+    -m train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=sp3 \
+    model=RNO_MD_v2-2 \
+    logging=draw \
+    model.num_spherical=3 \
+    model.cutoff=3 \
+    model.probe_cutoff=2 \
+    model.grid_cutoff=2 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=md \
+    train=NO \
+    postfix=sp1_no_sharing \
+    model=RNO_MD_v2-2 \
+    logging=draw \
+    model.num_spherical=1 \
+    model.sharing=False \
+    model.cutoff=3 \
+    model.grid_cutoff=3 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=1 python run.py --config-name=md \
+    train=NO \
+    postfix=sp1_no_sharing \
+    model=RNO_MD_v2-2 \
+    logging=draw \
+    model.num_spherical=1 \
+    model.sharing=False \
+    model.cutoff=3 \
+    model.residual=False \
+    model.num_fourier=12 \
+    model.grid_cutoff=1.0 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=md \
+    train=NO \
+    model=RNO_MD_v4 \
+    logging=draw \
+    model.num_spherical=1 \
+    model.cutoff=3 \
+    model.residual=False \
+    model.num_fourier=12 \
+    model.grid_cutoff=1.0 \
+    data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=7 python run.py \
+    train=NO \
+    model=RNO_v2-2 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier_time=16
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m  \
+    --config-name=md \
+    train=NO \
+    model=RNO_MD_v2-3 \
+    model.use_max_cell=False \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier_time=4,6,8,10 \
+    model.grid_cutoff=1.0,1.5,2.0
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=md \
+    train=NO \
+    model=RNO_MD_v2-3 \
+    model.use_max_cell=False \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier_time=12,14,16 \
+    model.grid_cutoff=1.0,1.5,2.0
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    --config-name=md \
+    train=NO \
+    model=RNO_MD_v2-3_GINO \
+    model.use_max_cell=False \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier=4 \
+    model.grid_cutoff=1.0,1.5,2.0
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=md \
+    train=NO \
+    model=RNO_MD_v6-1 \
+    model.use_max_cell=False \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.input_infgcn=true 
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m \
+    --config-name=md \
+    train=NO \
+    model=RNO_MD_v6-sig \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=20 \
+    model.input_infgcn=true 
+
+CUDA_VISIBLE_DEVICES=6 python run.py \
+    train=NO \
+    model=RNO_v2-2 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier_time=16
+
+CUDA_VISIBLE_DEVICES=5 python run.py \
+    train=NO \
+    model=RNO_v2-2 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_fourier_time=16 \
+    model.grid_cutoff=2.5
+
+CUDA_VISIBLE_DEVICES=4 python run.py \
+    train=NO \
+    model=RNO_v2-2 \
+    data=all data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier_time=16 \
+    model.grid_cutoff=2.5
+
+## 0105 svr6 ##
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    train.random_seed=1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=3
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    train.random_seed=1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=5
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m \
+    train.random_seed=1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=6
+---------------------------------------------
+CUDA_VISIBLE_DEVICES=2 python run.py -m \
+    model=RNO_v2-2 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=3
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m \
+    model=RNO_v2-2 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m \
+    model=RNO_v2-2 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=5
+
+### svr10
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    model=RNO_v6-1 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=3 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    model=RNO_v6-2 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=3 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=4 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=5 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=6 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=3 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=4 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=5 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m \
+    model=RNO_v4-4 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    postfix=rep \
+    data.num_workers=32 \
+    data=all \
+    logging=draw \
+    model.num_spherical=6 \
+    model.probe_cutoff=2.5 \
+    model.grid_cutoff=1.25 \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=md model=RNO_MD_v6-sig \
+    train=NO\
+    train.random_seed=42\
+    postfix=mask \
+    data.num_workers=32 \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.grid_cutoff=0.5

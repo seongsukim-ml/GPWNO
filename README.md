@@ -7,6 +7,9 @@ By Seongsu Kim, Feb, 2024
 All codes are run with python 3.9 and CUDA 12.0. Similar environment should also work, as this project does not rely on some rapdily changing packages.
 
 ```
+conda create -n GPWNO python==3.9
+conda activate GPWNO
+
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 pip install pyg-lib torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
 pip install numpy==1.23.4 scipy==1.9.3 matplotlib==3.7 tqdm
@@ -103,27 +106,30 @@ And also you have to fix the path of the configure in the `conf/data`.
 ### MD
 ```
 python run.py --config-name=md \
-    model=GPWNO \
-    data.datamodule.datasets.test.n_samples=Null \
+    model=GPWNO_MD \
+    data.num_workers=32 \
     logging=draw \
-    model.model_sharing=False \
     data.mol_name=benzene
 ```
 
 ### QM9
 ```
 python run.py --config-name=qm9 \
-    model=GPWNO \
-    data.train_max_iter=80000 \
+    model=GPWNO_QM9 \
+    data.num_workers=32 \
     data.num_test_samples=1600 \
     logging=draw \
 ```
 
 ### MP
 ```
-python run.py -m \
-    --config-name=mp_mixed \
-    model=GPWNO \
+python run.py --config-name=mp \
+    model=GPWNO_pbc \
+    data.num_workers=32 \
+    logging=draw
+
+python run.py --config-name=mp \
+    model=GPWNO_pbc \
     data=mp_tetragonal \
     data.num_workers=32 \
     logging=draw

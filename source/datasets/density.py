@@ -101,7 +101,7 @@ class DensityDataset(Dataset):
         self.file_pattern = f".{extension}"
         if compression is not None:
             self.file_pattern += f".{compression}"
-        with open(os.path.join(root, split_file)) as f:
+        with open(os.path.join(split_file)) as f:
             # reverse the order so that larger molecules are tested first
             self.file_list = list(reversed(json.load(f)[split]))
             if reverse_order:

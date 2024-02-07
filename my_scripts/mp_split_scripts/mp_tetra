@@ -1,0 +1,11 @@
+# svr6
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_tetragonal \
+    train.random_seed=2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw \
+    model.residual=True \
+    model.num_spherical=3

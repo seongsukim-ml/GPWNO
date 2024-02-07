@@ -1,0 +1,18 @@
+# scp -r holywater3@10.2.140.1:~/hw_data1/dataset_mp/data/{"$(cat folder_list.txt | tr '\n' ',' | sed 's/,$//')"} .
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_trigonal_download.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.9:~/crystal/dataset_mp
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_hexagonal_download.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.10:~/crystal/dataset_mp
+
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_orthorhombic_download.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.9:~/crystal/dataset_mp_mixed #1.56T
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_monoclinic_download.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.10:~/crystal/dataset_mp_mixed #1.84T
+
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_triclinic_download.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.9:~/crystal/dataset_mp #0.96T
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_cubic_downlad.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.10:~/crystal/dataset_mp #1.13T
+
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_tetragonal_download.txt ~/hw_data1/dataset_mp/data  holywater2@10.2.140.9:~/crystal/dataset_mp_mixed
+
+# rsync -avuh --progress --partial-dir=/tmp --files-from=mp_cubic_downlad.txt ~/hw_data1/dataset_mp/data holywater2@10.2.140.6:~/crystal/dataset_mp #1.13T
+
+#------
+
+# rsync -e 'ssh -p 7777' -avuh --progress --partial-dir=/tmp --files-from=mp_triclinic_download.txt ~/hw_data1/dataset_mp/data seongsukim@141.223.25.21:~/crystal/dataset_mp_mixed
+# rsync -e 'ssh -p 7777' -avuh --progress --partial-dir=/tmp --files-from=mp_cubic_download.txt ~/hw_data1/dataset_mp/data seongsukim@141.223.25.21:~/crystal/dataset_mp_mixed

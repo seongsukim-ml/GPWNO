@@ -1,5 +1,5 @@
 # train_max_epochs: 20
-train_max_iter: 40000 # step
+train_max_iter: 80000 # step
 early_stopping_patience: 1000
 
 num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug
@@ -10,7 +10,7 @@ pdir: /home/holywater2/crystal
 
 root: ${data.pdir}/dataset_qm9
 # split_file: cubic_data_split_fix.json
-split_file: datasplits.json
+split_file: ${data.pdir}/GPWNO/data_splits/qm9_datasplits.json
 atom_file: ${data.pdir}/GPWNO/atom_info/qm9_atom_info.json
 extension: CHGCAR
 compression: lz4

@@ -1,0 +1,332 @@
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
+    postfix=rep \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-good \
+    model.num_spherical=7 \
+    model.max_cell_size=25
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=qm9 \
+    postfix=rep \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-good \
+    model.num_spherical=7 \
+    model.max_cell_size=25 \
+    model.num_spherical=7
+
+
+CUDA_VISIBLE_DEVICES=6 python run.py --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-good \
+    model.num_spherical=7 \
+    model.use_max_cell=False
+
+CUDA_VISIBLE_DEVICES=1 python run.py --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-good \
+    model.num_spherical=7 \
+    model.residual=False \
+    model.max_cell_size=25
+
+CUDA_VISIBLE_DEVICES=3 python run.py --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=qm9 \
+    postfix=rep \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=42,1 \
+    logging=draw \
+    model=infgcnQM9_rep
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=qm9 \
+    postfix=rep \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=6,7
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=rep \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=42,1 \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=6
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4,5 \
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4,5 \
+    model.num_spherical_fourier=3
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=2,4
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=6 \
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=7 \
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4 \
+    model.grid_cutoff=0.5 \
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4 \
+    model.num_fourier=30\
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=5 \
+    model.num_fourier=30\
+    model.num_spherical_RNO=2
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=qm9 \
+    postfix=test \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4 \
+    model.num_fourier=20\
+    model.num_spherical_RNO=3
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=qm9 \
+    postfix=test \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    logging=draw \
+    model=RNO_QM9_v6-sep \
+    model.num_spherical=4 \
+    model.num_fourier=30\
+    model.num_spherical_RNO=2
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=42 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=7
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=7
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=42 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=1 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=6
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=1 \
+    data.reverse_order=True \
+    logging=draw \
+    model.num_fourier=30 \
+    model=RNO_QM9-v6-sep \
+    model.residual=True \
+    model.max_cell_size=16 \
+    model.num_spherical=4 \
+    model.num_spherical_RNO=2 \
+    model.scalar_mask=True \
+    model.mask_cutoff=3.0 \
+    model.grid_cutoff=0.75
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=1 \
+    data.reverse_order=True \
+    logging=draw \
+    model.num_fourier=20 \
+    model=RNO_QM9-v6-sep \
+    model.residual=True \
+    model.max_cell_size=16 \
+    model.num_spherical=6 \
+    model.num_spherical_RNO=2 \
+    model.scalar_mask=True \
+    model.mask_cutoff=3.0 \
+    model.grid_cutoff=0.75
+
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=3 \
+    data.reverse_order=True \
+    logging=draw \
+    model.num_fourier=30 \
+    model=RNO_QM9_v6-sep \
+    model.residual=True \
+    model.max_cell_size=16 \
+    model.num_spherical=4 \
+    model.num_spherical_RNO=3 \
+    model.scalar_mask=True \
+    model.mask_cutoff=3.0 \
+    model.grid_cutoff=0.75
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=4
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.num_test_samples=1600 \
+    train.random_seed=3 \
+    data.reverse_order=True \
+    logging=draw \
+    model=infgcnQM9_rep \
+    model.num_spherical=7
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=final \
+    data.rotate=True \
+    data.train_max_iter=80000 \
+    data.num_test_samples=1600 \
+    train.random_seed=2 \
+    data.reverse_order=True \
+    logging=draw \
+    model.num_fourier=30 \
+    model=RNO_QM9_v7-adap \
+    model.residual=True \
+    model.max_cell_size=16 \
+    model.num_spherical=4 \
+    model.num_spherical_RNO=3 \
+    model.scalar_mask=True \
+    model.grid_cutoff=0.75

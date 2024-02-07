@@ -1,0 +1,10 @@
+# cluster
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_triclinic \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw \
+    model.residual=True \
+    model.num_spherical=3

@@ -1,0 +1,9 @@
+CUDA_VISIBLE_DEVICES=4 python inference.py --config-name=qm9 \
+postfix=test data.rotate=True \
+data.num_test_samples=1600 \
+logging=draw \
+model=RNO_QM9_v6-sep \
+model.num_spherical=4 \
+model.num_spherical_RNO=2 \
+model.residual=True \
++model.checkpoint_path="/home/holywater2/crystal/InfGCN-pytorch/outputs/hydra/singlerun/2024-01-11-01-26-21/RNO_QM9_v6-sep_mk-True_co3_pc1.5_gc0.75_f30_t12_w16_gcn2_pd4_sp4_spf2_inp-True_sha-False_max-True_res-True_test/epoch\=9-step\=38700.ckpt"

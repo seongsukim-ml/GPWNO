@@ -1,0 +1,492 @@
+"benzene",
+"ethanol",
+"phenol",
+"resorcinol",
+"ethane",
+"malonaldehyde",
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4,5,6,7 \
+    data.mol_name=ethanol \
+    model.residual=False
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=6 \
+    data.mol_name=ethanol
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4,5 \
+    data.mol_name=phenol
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=6 \
+    data.mol_name=phenol
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4,5 \
+    data.mol_name=resorcinol
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=6 \
+    data.mol_name=resorcinol
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4,5 \
+    data.mol_name=ethane \
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=6 \
+    data.mol_name=ethane
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4,5 \
+    data.mol_name=malonaldehyde
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=6 \
+    data.mol_name=malonaldehyde
+
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=5,6 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=sota train.random_seed=42 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=sota train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    data.mol_name=ethanol
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=sota train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    data.mol_name=phenol
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=sota train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    data.mol_name=resorcinol
+
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=sota train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    model.num_fourier=40 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep2 train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4,5 \
+    model.num_fourier=40,50,60 \
+    data.mol_name=ethanol,phenol
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=rep2 train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=5,6 \
+    model.num_fourier=40 \
+    data.mol_name=phenol
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,6 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4,5 \
+    data.mol_name=benzene
+
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=rep_res train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=rep_res train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=5,6 \
+    model.num_fourier=40 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=rep2 train.random_seed=42,1,2 \
+    model=RNO_MD_v6-good \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3,4 \
+    model.num_fourier=40 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_no_mask \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.scalar_mask=True,False \
+    logging=draw \
+    model.use_max_cell=True,False \
+    model.num_spherical=3,4,5 \
+    model.num_fourier=40 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_no_mask \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.scalar_mask=True,False \
+    logging=draw \
+    model.use_max_cell=True,False \
+    model.num_spherical=3,4,5 \
+    model.num_fourier=50 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_no_mask \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.scalar_mask=True,False \
+    logging=draw \
+    model.use_max_cell=True,False \
+    model.num_spherical=3,4,5 \
+    model.num_fourier=30 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_no_mask \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.scalar_mask=True,False \
+    logging=draw \
+    model.use_max_cell=True,False \
+    model.num_spherical=3,4,5 \
+    model.num_fourier=60 \
+    model.residual=False \
+    data.mol_name=benzene
+
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_no_mask \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.scalar_mask=True,False \
+    logging=draw \
+    model.use_max_cell=True,False \
+    model.num_spherical=3,4,5 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.grid_cutoff=0.3,0.5,1.0 \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=20 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=10 \
+    model.residual=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test_mc5.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.mask_cutoff=5.0 \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=test_mc2.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.mask_cutoff=2.0 \
+    model.scalar_mask=True \
+    model.model_sharing=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=test_mc3.0_inv train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.mask_cutoff=3.0 \
+    model.scalar_mask=True \
+    model.model_sharing=True \
+    +model.scalar_inv=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test_mc3.0_inv train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.mask_cutoff=3.0 \
+    model.scalar_mask=True \
+    model.model_sharing=True \
+    +model.scalar_inv=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test_mc3.0_inv train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.mask_cutoff=3.0 \
+    model.scalar_mask=True \
+    model.model_sharing=True \
+    +model.scalar_inv=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=test_mc3.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.scalar_mask=False \
+    model.model_sharing=False \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=test_mc3.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=True \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=test_mc3.0_gs3.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=True \
+    model.gauss_end=3.0 \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test_mc3.0_gs3.0 train.random_seed=42 \
+    model=RNO_MD_v6-good_fin \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.gauss_end=3.0 \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+#################################### BEST MD ############################################################
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+
+
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=5 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+############################################################################################################
+## Test Md ###
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=5 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene
+
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=test train.random_seed=42 \
+    model=RNO_MD_v7-adap \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene,ethanol,phenol,resorcinol,ethane,malonaldehyde
+
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=test train.random_seed=1 \
+    model=RNO_MD_v7-adap \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene,ethanol,phenol,resorcinol,ethane,malonaldehyde
+
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=test train.random_seed=2 \
+    model=RNO_MD_v7-adap \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=True \
+    data.mol_name=benzene,ethanol,phenol,resorcinol,ethane,malonaldehyde
+
+HYDRA_FULL_ERROR=1 CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=test train.random_seed=1 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=30 \
+    model.residual=False \
+    model.model_sharing=True \
+    model.cutoff=0 \
+    model.scalar_mask=False \
+    data.mol_name=benzene,ethanol,phenol,resorcinol,ethane,malonaldehyde

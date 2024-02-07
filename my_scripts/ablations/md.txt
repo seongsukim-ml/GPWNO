@@ -1,0 +1,170 @@
+"benzene",
+"ethanol",
+"phenol",
+"resorcinol",
+"ethane",
+"malonaldehyde",
+
+# just InfGCN
+
+# Using NO mask
+
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=ablation \
+    train.random_seed=42,1,2 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,ethanol,phenol
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=ablation train.random_seed=42,1,2 \
+    model=RNO_MD_v6-sep \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=resorcinol,ethane,malonaldehyde
+
+# Using mask
+
+# Using no GTO
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=ablation2 \
+    train.random_seed=42,1,2 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,ethanol
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=ablation2 train.random_seed=42,1,2 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=resorcinol,ethane,malonaldehyde
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=ablation2 train.random_seed=42,1,2 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=40 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=malonaldehyde,phenol
+
+# Using no GTO_PW
+
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=42 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=10,50 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=42 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=20,30 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=1 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=20,30 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=1 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=10,50 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol
+
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=2 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=20,30 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=ablation3 \
+    train.random_seed=2 \
+    model=RNO_MD_v6-sep-ablation \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging=draw \
+    model.num_spherical=1 \
+    model.num_spherical_RNO=4 \
+    model.num_fourier=10,50 \
+    model.residual=False \
+    model.model_sharing=False \
+    model.scalar_mask=False \
+    data.mol_name=benzene,phenol,resorcinol

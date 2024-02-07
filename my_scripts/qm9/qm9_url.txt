@@ -1,0 +1,282 @@
+https://data.dtu.dk/ndownloader/files/31062047
+  out=000xxx.tar
+https://data.dtu.dk/ndownloader/files/31062152
+  out=001xxx.tar
+https://data.dtu.dk/ndownloader/files/31062214
+  out=002xxx.tar
+https://data.dtu.dk/ndownloader/files/31062266
+  out=003xxx.tar
+https://data.dtu.dk/ndownloader/files/31062311
+  out=004xxx.tar
+https://data.dtu.dk/ndownloader/files/31062335
+  out=005xxx.tar
+https://data.dtu.dk/ndownloader/files/31062359
+  out=006xxx.tar
+https://data.dtu.dk/ndownloader/files/31062367
+  out=007xxx.tar
+https://data.dtu.dk/ndownloader/files/31062371
+  out=008xxx.tar
+https://data.dtu.dk/ndownloader/files/31062443
+  out=009xxx.tar
+https://data.dtu.dk/ndownloader/files/31062520
+  out=010xxx.tar
+https://data.dtu.dk/ndownloader/files/31062584
+  out=011xxx.tar
+https://data.dtu.dk/ndownloader/files/31062652
+  out=012xxx.tar
+https://data.dtu.dk/ndownloader/files/31062736
+  out=013xxx.tar
+https://data.dtu.dk/ndownloader/files/31062846
+  out=014xxx.tar
+https://data.dtu.dk/ndownloader/files/31062937
+  out=015xxx.tar
+https://data.dtu.dk/ndownloader/files/31063005
+  out=016xxx.tar
+https://data.dtu.dk/ndownloader/files/31063081
+  out=017xxx.tar
+https://data.dtu.dk/ndownloader/files/31063152
+  out=018xxx.tar
+https://data.dtu.dk/ndownloader/files/31063213
+  out=019xxx.tar
+https://data.dtu.dk/ndownloader/files/31063281
+  out=020xxx.tar
+https://data.dtu.dk/ndownloader/files/31063321
+  out=021xxx.tar
+https://data.dtu.dk/ndownloader/files/31063402
+  out=022xxx.tar
+https://data.dtu.dk/ndownloader/files/31063473
+  out=023xxx.tar
+https://data.dtu.dk/ndownloader/files/31063534
+  out=024xxx.tar
+https://data.dtu.dk/ndownloader/files/31063587
+  out=025xxx.tar
+https://data.dtu.dk/ndownloader/files/31063660
+  out=026xxx.tar
+https://data.dtu.dk/ndownloader/files/31063726
+  out=027xxx.tar
+https://data.dtu.dk/ndownloader/files/31063846
+  out=028xxx.tar
+https://data.dtu.dk/ndownloader/files/31063909
+  out=029xxx.tar
+https://data.dtu.dk/ndownloader/files/31063996
+  out=030xxx.tar
+https://data.dtu.dk/ndownloader/files/31064074
+  out=031xxx.tar
+https://data.dtu.dk/ndownloader/files/31064161
+  out=032xxx.tar
+https://data.dtu.dk/ndownloader/files/31064251
+  out=033xxx.tar
+https://data.dtu.dk/ndownloader/files/31064332
+  out=034xxx.tar
+https://data.dtu.dk/ndownloader/files/31064416
+  out=035xxx.tar
+https://data.dtu.dk/ndownloader/files/31064497
+  out=036xxx.tar
+https://data.dtu.dk/ndownloader/files/31064584
+  out=037xxx.tar
+https://data.dtu.dk/ndownloader/files/31064658
+  out=038xxx.tar
+https://data.dtu.dk/ndownloader/files/31064743
+  out=039xxx.tar
+https://data.dtu.dk/ndownloader/files/31064824
+  out=040xxx.tar
+https://data.dtu.dk/ndownloader/files/31064889
+  out=041xxx.tar
+https://data.dtu.dk/ndownloader/files/31064968
+  out=042xxx.tar
+https://data.dtu.dk/ndownloader/files/31065040
+  out=043xxx.tar
+https://data.dtu.dk/ndownloader/files/31065109
+  out=044xxx.tar
+https://data.dtu.dk/ndownloader/files/31065172
+  out=045xxx.tar
+https://data.dtu.dk/ndownloader/files/31065244
+  out=046xxx.tar
+https://data.dtu.dk/ndownloader/files/31065324
+  out=047xxx.tar
+https://data.dtu.dk/ndownloader/files/31065388
+  out=048xxx.tar
+https://data.dtu.dk/ndownloader/files/31065429
+  out=049xxx.tar
+https://data.dtu.dk/ndownloader/files/31065445
+  out=050xxx.tar
+https://data.dtu.dk/ndownloader/files/31065453
+  out=051xxx.tar
+https://data.dtu.dk/ndownloader/files/31065457
+  out=052xxx.tar
+https://data.dtu.dk/ndownloader/files/31065462
+  out=053xxx.tar
+https://data.dtu.dk/ndownloader/files/31065466
+  out=054xxx.tar
+https://data.dtu.dk/ndownloader/files/31065468
+  out=055xxx.tar
+https://data.dtu.dk/ndownloader/files/31065475
+  out=056xxx.tar
+https://data.dtu.dk/ndownloader/files/31065495
+  out=057xxx.tar
+https://data.dtu.dk/ndownloader/files/31065502
+  out=058xxx.tar
+https://data.dtu.dk/ndownloader/files/31065518
+  out=059xxx.tar
+https://data.dtu.dk/ndownloader/files/31065528
+  out=060xxx.tar
+https://data.dtu.dk/ndownloader/files/31065533
+  out=061xxx.tar
+https://data.dtu.dk/ndownloader/files/31065537
+  out=062xxx.tar
+https://data.dtu.dk/ndownloader/files/31065545
+  out=063xxx.tar
+https://data.dtu.dk/ndownloader/files/31065552
+  out=064xxx.tar
+https://data.dtu.dk/ndownloader/files/31065554
+  out=065xxx.tar
+https://data.dtu.dk/ndownloader/files/31065558
+  out=066xxx.tar
+https://data.dtu.dk/ndownloader/files/31065599
+  out=067xxx.tar
+https://data.dtu.dk/ndownloader/files/31065608
+  out=068xxx.tar
+https://data.dtu.dk/ndownloader/files/31065626
+  out=069xxx.tar
+https://data.dtu.dk/ndownloader/files/31065641
+  out=070xxx.tar
+https://data.dtu.dk/ndownloader/files/31065655
+  out=071xxx.tar
+https://data.dtu.dk/ndownloader/files/31065710
+  out=072xxx.tar
+https://data.dtu.dk/ndownloader/files/31065751
+  out=073xxx.tar
+https://data.dtu.dk/ndownloader/files/31065764
+  out=074xxx.tar
+https://data.dtu.dk/ndownloader/files/31065778
+  out=075xxx.tar
+https://data.dtu.dk/ndownloader/files/31065791
+  out=076xxx.tar
+https://data.dtu.dk/ndownloader/files/31065811
+  out=077xxx.tar
+https://data.dtu.dk/ndownloader/files/31065821
+  out=078xxx.tar
+https://data.dtu.dk/ndownloader/files/31065835
+  out=079xxx.tar
+https://data.dtu.dk/ndownloader/files/31065836
+  out=080xxx.tar
+https://data.dtu.dk/ndownloader/files/31065850
+  out=081xxx.tar
+https://data.dtu.dk/ndownloader/files/31065859
+  out=082xxx.tar
+https://data.dtu.dk/ndownloader/files/31065860
+  out=083xxx.tar
+https://data.dtu.dk/ndownloader/files/31065865
+  out=084xxx.tar
+https://data.dtu.dk/ndownloader/files/31065881
+  out=085xxx.tar
+https://data.dtu.dk/ndownloader/files/31065886
+  out=086xxx.tar
+https://data.dtu.dk/ndownloader/files/31065890
+  out=087xxx.tar
+https://data.dtu.dk/ndownloader/files/31065892
+  out=088xxx.tar
+https://data.dtu.dk/ndownloader/files/31065899
+  out=089xxx.tar
+https://data.dtu.dk/ndownloader/files/31065907
+  out=090xxx.tar
+https://data.dtu.dk/ndownloader/files/31065920
+  out=091xxx.tar
+https://data.dtu.dk/ndownloader/files/31065931
+  out=092xxx.tar
+https://data.dtu.dk/ndownloader/files/31065942
+  out=093xxx.tar
+https://data.dtu.dk/ndownloader/files/31065949
+  out=094xxx.tar
+https://data.dtu.dk/ndownloader/files/31065957
+  out=095xxx.tar
+https://data.dtu.dk/ndownloader/files/31065970
+  out=096xxx.tar
+https://data.dtu.dk/ndownloader/files/31065994
+  out=097xxx.tar
+https://data.dtu.dk/ndownloader/files/31066008
+  out=098xxx.tar
+https://data.dtu.dk/ndownloader/files/31066012
+  out=099xxx.tar
+https://data.dtu.dk/ndownloader/files/31066020
+  out=100xxx.tar
+https://data.dtu.dk/ndownloader/files/31066030
+  out=101xxx.tar
+https://data.dtu.dk/ndownloader/files/31066047
+  out=102xxx.tar
+https://data.dtu.dk/ndownloader/files/31066054
+  out=103xxx.tar
+https://data.dtu.dk/ndownloader/files/31066075
+  out=104xxx.tar
+https://data.dtu.dk/ndownloader/files/31066084
+  out=105xxx.tar
+https://data.dtu.dk/ndownloader/files/31066095
+  out=106xxx.tar
+https://data.dtu.dk/ndownloader/files/31066108
+  out=107xxx.tar
+https://data.dtu.dk/ndownloader/files/31066119
+  out=108xxx.tar
+https://data.dtu.dk/ndownloader/files/31066120
+  out=109xxx.tar
+https://data.dtu.dk/ndownloader/files/31066128
+  out=110xxx.tar
+https://data.dtu.dk/ndownloader/files/31066135
+  out=111xxx.tar
+https://data.dtu.dk/ndownloader/files/31066149
+  out=112xxx.tar
+https://data.dtu.dk/ndownloader/files/31066162
+  out=113xxx.tar
+https://data.dtu.dk/ndownloader/files/31066176
+  out=114xxx.tar
+https://data.dtu.dk/ndownloader/files/31066216
+  out=115xxx.tar
+https://data.dtu.dk/ndownloader/files/31066224
+  out=116xxx.tar
+https://data.dtu.dk/ndownloader/files/31066231
+  out=117xxx.tar
+https://data.dtu.dk/ndownloader/files/31066236
+  out=118xxx.tar
+https://data.dtu.dk/ndownloader/files/31066249
+  out=119xxx.tar
+https://data.dtu.dk/ndownloader/files/31066263
+  out=120xxx.tar
+https://data.dtu.dk/ndownloader/files/31066303
+  out=121xxx.tar
+https://data.dtu.dk/ndownloader/files/31066327
+  out=122xxx.tar
+https://data.dtu.dk/ndownloader/files/31066344
+  out=123xxx.tar
+https://data.dtu.dk/ndownloader/files/31066345
+  out=124xxx.tar
+https://data.dtu.dk/ndownloader/files/31066347
+  out=125xxx.tar
+https://data.dtu.dk/ndownloader/files/31066348
+  out=126xxx.tar
+https://data.dtu.dk/ndownloader/files/31066365
+  out=127xxx.tar
+https://data.dtu.dk/ndownloader/files/31066366
+  out=128xxx.tar
+https://data.dtu.dk/ndownloader/files/31066371
+  out=129xxx.tar
+https://data.dtu.dk/ndownloader/files/31066387
+  out=130xxx.tar
+https://data.dtu.dk/ndownloader/files/31074558
+  out=131xxx.tar
+https://data.dtu.dk/ndownloader/files/31074568
+  out=132xxx.tar
+https://data.dtu.dk/ndownloader/files/31074583
+  out=133xxx.tar
+https://data.dtu.dk/ndownloader/files/31085455
+  out=datasplits.json
+https://data.dtu.dk/ndownloader/files/31085458
+  out=datasplits_218.json
+https://data.dtu.dk/ndownloader/files/31085461
+  out=datasplits_875.json
+https://data.dtu.dk/ndownloader/files/31085464
+  out=datasplits_3500.json
+https://data.dtu.dk/ndownloader/files/31085467
+  out=datasplits_15000.json
+https://data.dtu.dk/ndownloader/files/31085470
+  out=datasplits_60000.json
+https://data.dtu.dk/ndownloader/files/31085473
+  out=qm9vasp.txt

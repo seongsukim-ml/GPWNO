@@ -11,7 +11,7 @@ n_atom_type: 87
 pdir: /home/holywater2/crystal
 
 root: ${data.pdir}/dataset_mp
-split_file: mp_${data.lattice}_split.json
+split_file: ${data.pdir}/GPWNO/data_splits/mp_splits/mp_${data.lattice}_split.json
 # split_file: cubic_data_split.json
 # atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/mp_mixed.json
 extension: chgcar

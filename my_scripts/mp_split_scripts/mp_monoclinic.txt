@@ -1,0 +1,75 @@
+# Svr10
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_monoclinic \
+    model=RNO_v8-pbc-soul2 \
+    train.random_seed=2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw \
+    model.num_fourier=12 \
+    model.residual=True \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=3 \
+    model.scalar_mask=True \
+    model.grid_cutoff=1.25
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_monoclinic \
+    train.random_seed=2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw \
+    model.residual=True \
+    model.num_spherical=3
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_monoclinic \
+    model=RNO_v8-pbc-soul2 \
+    train.random_seed=1 \
+    postfix=rep \
+    data.num_workers=16 \
+    logging=draw \
+    model.num_fourier=12 \
+    model.residual=True \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=3 \
+    model.scalar_mask=False \
+    model.grid_cutoff=1.25
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp_mixed \
+    data=mp_monoclinic \
+    train.random_seed=42 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw \
+    model.residual=True \
+    model.num_spherical=3 \
+    model.cutoff=3.0
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m \
+    --config-name=mp_mixed \
+    model=RNO_v8-pbc-soul2-3 \
+    data=mp_monoclinic \
+    train.random_seed=2 \
+    postfix=test2 \
+    data.num_workers=32 \
+    logging=draw \
+    model.num_fourier=20 \
+    model.residual=True \
+    model.num_spherical=3 \
+    model.num_spherical_RNO=3 \
+    model.scalar_mask=True \
+    model.probe_cutoff=1.5 \
+    model.grid_cutoff=0.75 \
+    model.mask_cutoff=1.0 \
+    model.cutoff=3.0 \
+    model.input_infgcn=False \
+    +model.input_dist=False \
+    +model.atomic_gauss_dist=False
+
+# svr 10

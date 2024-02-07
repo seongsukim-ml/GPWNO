@@ -1,0 +1,390 @@
+conda activate infGCN
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m postfix="light" train.random_seed=42,1 model=infgcn_NO2_light data=all data.num_workers=32 train=NO
+CUDA_VISIBLE_DEVICES=6 python run.py -m postfix="light" train.random_seed=2,3  model=infgcn_NO2_light data=all data.num_workers=32 train=NO
+CUDA_VISIBLE_DEVICES=5 python run.py -m postfix="time_1" train.random_seed=42,1,2,3  model=infgcn_NO2_light data.num_workers=32 model.num_fourier_time=1 train=NO
+CUDA_VISIBLE_DEVICES=4 python run.py --config-name=test postfix="test" train.random_seed=42 model=infgcn_NO3 data.num_workers=32 model.num_fourier_time=1
+CUDA_VISIBLE_DEVICES=3 python run.py -m postfix="test" train.random_seed=42,1,2,3  model=infgcn_NO3 data.num_workers=32 train=NO
+CUDA_VISIBLE_DEVICES=2 python run.py -m postfix="rep2" train.random_seed=2,3 data.num_workers=16 data=all
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m postfix="time_4" train.random_seed=42,1,2,3  model=infgcn_NO2_light data.num_workers=32 model.num_fourier_time=4 train=NO
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m postfix="avg2" train.random_seed=2,3  model=infgcn_NO2_light data=all data.num_workers=32 train=NO model.num_fourier_time=16
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m postfix="light" train.random_seed=42,1 model=infgcn_NO2_light data=all data.num_workers=32 train=NO
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=test postfix="test" train.random_seed=42 model=infgcn_NO2-1 data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m postfix="avg" train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m postfix="four16_time16" train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.num_fourier=16 model.num_fourier_time=16
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m postfix="avg_probe_cut_off2.5" train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.probe_cutoff=2.5
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m postfix="four12_time12_probe_cut_off2.5" train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.probe_cutoff=2.5 model.num_fourier=12 model.num_fourier_time=12
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m postfix="four12_time12_probe_cut_off2.5" train.random_seed=42,1,2,3 model=infgcn_NO2-2 data=all data.num_workers=32 train=NO model.num_fourier=12 model.num_fourier_time=12
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m postfix="four12_time12" train.random_seed=42,1,2,3 model=infgcn_NO2-3 data=all data.num_workers=32 train=NO model.num_fourier=12 model.num_fourier_time=12
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m postfix="four8_time8" train.random_seed=42,1,2,3 model=infgcn_NO2-3 data=all data.num_workers=32 train=NO model.num_fourier=8 model.num_fourier_time=8
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m postfix="four8_time12_gcn3" train.random_seed=42,1,2,3 model=infgcn_NO2-3 data=all data.num_workers=32 train=NO model.num_fourier=8 model.num_fourier_time=12 model.num_gcn_layer=3
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m postfix=for8_time16_gcn4_gcoff1_0 train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=4 model.grid_cutoff=1.0
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m postfix=for8_time16_gcn4_gcoff2_5 train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=4 model.grid_cutoff=2.5
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m postfix=for8_time16_gcn4_gcoff2_5 train.random_seed=42,1 model=infgcn_NO2-4 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=4 model.grid_cutoff=2.5
+CUDA_VISIBLE_DEVICES=4 python run.py -m postfix=for8_time16_gcn4_gcoff2_5 train.random_seed=2,3 model=infgcn_NO2-4 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=4 model.grid_cutoff=2.5
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m postfix=for8_time16_gcn4_gcoff1_0 train.random_seed=42,1,2,3 model=infgcn_NO2-4 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=4 model.grid_cutoff=1.0
+
+CUDA_VISIBLE_DEVICES=0 python run.py --config-name=test postfix="test" train.random_seed=42 model=infgcn_NO5 data.num_workers=32
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m postfix=f8_t16_gcn3_gcoff2_5 train.random_seed=42,1,2,3 model=infgcn_NO2-5 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=3 model.grid_cutoff=2.5
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m postfix=f8_t16_gcn3_gcoff1_5 train.random_seed=42,1,2,3 model=infgcn_NO2-1 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=3 model.grid_cutoff=1.5
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m postfix="rep_with_testscore" train.random_seed=7,8 data.num_workers=16 data=all data.datamodule.datasets.test.n_samples=Null  logging.draw_predictions=True
+CUDA_VISIBLE_DEVICES=7 python run.py -m postfix="rep_with_testscore" train.random_seed=5,6 data.num_workers=16 data=all data.datamodule.datasets.test.n_samples=Null  logging.draw_predictions=True
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m postfix=f8_t16_gcn3_gcoff2_5_ts train.random_seed=7,8 model=infgcn_NO2-4 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=3 model.grid_cutoff=2.5 data.datamodule.datasets.test.n_samples=Null  logging.draw_predictions=True
+CUDA_VISIBLE_DEVICES=1 python run.py -m postfix=f8_t16_gcn3_gcoff2_5_ts train.random_seed=5,6 model=infgcn_NO2-4 data=all data.num_workers=32 train=NO model.num_fourier_time=16 model.num_spherical=4 model.num_gcn_layer=3 model.grid_cutoff=2.5 data.datamodule.datasets.test.n_samples=Null  logging.draw_predictions=True
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    model.num_spherical=3,4,5 \
+    data.mol_name=ethanol \
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    data.mol_name=ethanol
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=md \
+    postfix=no_pbc train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    data.mol_name=benzene \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep3_opt_fixed_bs64 train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    data.mol_name=phenol,resorcinol \
+    optim=fixed \
+    data.batch_size=64
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep3_opt_fixed_bs64 train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    model=infgcnMD_NO2-4 \
+    logging.draw_predictions=True \
+    data.mol_name=phenol,resorcinol \
+    optim=fixed \
+    data.batch_size=64
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4_grid \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    optim=fixed \
+    data.mol_name=benzene
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4_grid \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    optim=fixed \
+    data.mol_name=benzene model.grid_cutoff=1.5
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=rep_coff3_gcoff3 train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    optim=fixed \
+    data.mol_name=phenol,resorcinol
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=md \
+    postfix=rep_coff3_gcoff3 train.random_seed=42,1,2,3 \
+    data.num_workers=32  data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True \
+    optim=fixed \
+    data.mol_name=ethanol
+
+"benzene",
+"ethanol",
+"phenol",
+"resorcinol",
+"ethane",
+"malonaldehyde",
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=rep \
+    train.random_seed=42,1 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    data.rotate=True
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=rep_rot \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    data.rotate=True
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=rep_rot \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    data.rotate=True
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_00_rot \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=42,1 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    data.rotate=True
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_00_rot \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    data.rotate=True
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=qm9 \
+    postfix=rep2 \
+    train.random_seed=42,1 \
+    logging=draw \
+
+## MD best
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=md \
+    postfix=opt_fixed_cutoff3_grid1 \
+    train=NO \
+    train.random_seed=42,1,2,3 \
+    model=infgcnMD_NO2-4_grid \
+    data.num_workers=32  \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32
+
+## qm9
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_5 \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=42,1 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_5 \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_5_rot \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=42,1 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    data.rotate=True \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_5_rot \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    data.rotate=True \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_5_rot \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    data.rotate=True \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_00_f12 \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    train=NO \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=qm9 \
+    postfix=gcoff1_00_f12 \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=42,1 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    data.num_workers=32 \
+    train=NO \
+    model.num_fourier=12
+
+CUDA_VISIBLE_DEVICES=0 python run.py -m --config-name=qm9 \
+    postfix=gcoff0_50_f16 \
+    model=infgcnQM9_NO2-4_grid \
+    train.random_seed=2,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=0.5 \
+    data.num_workers=32 \
+    train=NO \
+    model.num_fourier=16
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m --config-name=qm9 \
+    postfix=gcoff3_00_f16 \
+    model=infgcnQM9_NO6 \
+    train.random_seed=42,2,1,3 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m --config-name=qm9 \
+    postfix=gcoff3_00_f16 \
+    model=infgcnQM9_NO7 \
+    train.random_seed=42,2 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=0.75 model.probe_cutoff=1.5 model.cutoff=1.5 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m postfix=f8_t16_gcn3_gcoff0_75_ts_fixed \
+    train.random_seed=5,6 model=infgcn_NO2-4 \
+    data=all data.num_workers=32 \
+    train=NO model.num_fourier_time=16 \
+    model.num_spherical=4 model.num_gcn_layer=3 \
+    model.grid_cutoff=0.75 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True\
+    optim=fixed
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m postfix=f8_t16_gcn3_gcoff0_75_ts_fixed \
+    train.random_seed=42,2,6 model=infgcn_NO2-4 \
+    data=all data.num_workers=32 \
+    train=NO model.num_fourier_time=16 \
+    model.num_spherical=4 model.num_gcn_layer=3 \
+    model.grid_cutoff=0.75 \
+    data.datamodule.datasets.test.n_samples=Null \
+    logging.draw_predictions=True\
+    optim=fixed
+
+CUDA_VISIBLE_DEVICES=7 python run.py --config-name=qm9 \
+    postfix=gcoff0_75_pcoff1_5_coff_1_5_f12_t16_w20_gcn2 \
+    model=infgcnQM9_NO8 \
+    train.random_seed=42 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    data.num_workers=32 \
+    train=NO
+
+
+CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
+    postfix=gcoff1_5_pcoff3_coff3_f10_t16_w20_gcn2 \
+    model=infgcnQM9_NO8-2 \
+    train.random_seed=42 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.num_fourier=10 \
+    model.grid_cutoff=1.5 \
+    model.probe_cutoff=3 \
+    model.cutoff=3 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=1 python run.py --config-name=qm9 \
+    postfix=gcoff1_5_pcoff3_coff3_f14_t16_w20_gcn2 \
+    model=infgcnQM9_NO8-3 \
+    train.random_seed=42 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=1.5 \
+    model.probe_cutoff=3 \
+    model.cutoff=3 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=5 python run.py --config-name=qm9 \
+    postfix=gcoff0_75_pcoff1_5_coff2_f10_t16_w20_gcn2 \
+    model=infgcnQM9_NO8 \
+    train.random_seed=42 \
+    logging=draw \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.num_fourier=10 \
+    model.cutoff=2 \
+    data.num_workers=32 \
+    train=NO
+
+CUDA_VISIBLE_DEVICES=0 python run.py --config-name=qm9 \
+    postfix=nr32_gcoff0_75_pcoff1_5_coff3_f12_t16_w20_gcn2 \
+    model=infgcnQM9_NO7 \
+    train.random_seed=42 \
+    logging=draw \
+    model.num_fourier=12 \
+    model.num_fourier_time=16 \
+    model.width=20 \
+    data.datamodule.datasets.test.n_samples=Null \
+    model.grid_cutoff=0.75 \
+    model.num_radial=32 \
+    model.probe_cutoff=1.5 \
+    model.cutoff=3 \
+    data.num_workers=32 \
+    train=NO
+
+

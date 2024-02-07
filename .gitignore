@@ -4,6 +4,7 @@ outputs/hydra
 /logs/
 /outputs/
 /wandb/
+models/__pycache__/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

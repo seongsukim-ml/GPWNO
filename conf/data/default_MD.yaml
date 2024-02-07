@@ -13,21 +13,6 @@ root: ${data.pdir}/dataset
 mol_name: benzene
 
 atom_file: ${data.pdir}/GPWNO/atom_info/md.json
-# model:
-#   type: infgcn
-#   n_atom_type: 3
-#   num_radial: 16
-#   num_spherical: 7
-#   radial_embed_size: 64
-#   radial_hidden_size: 128
-#   num_radial_layer: 2
-#   num_gcn_layer: 3
-#   cutoff: 3.
-#   grid_cutoff: 3.
-#   is_fc: false
-#   gauss_start: 0.5
-#   gauss_end: 5.
-
 
 datamodule:
   _target_: source.datamodule.datamodule.CrystalDatamodule

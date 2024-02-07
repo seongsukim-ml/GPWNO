@@ -20,7 +20,7 @@ n_atom_type: 84
 pdir: /home/holywater2/crystal
 
 root: ${data.pdir}/dataset_mp
-split_file: mp_${data.lattice}_split.json
+split_file: ${data.pdir}/GPWNO/data_splits/mp_splits/mp_${data.lattice}_split.json
 atom_file: ${data.pdir}/GPWNO/atom_info/mp_${data.lattice}_atom_info.json
 extension: chgcar
 compression: Null

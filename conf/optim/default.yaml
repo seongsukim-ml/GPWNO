@@ -16,4 +16,4 @@ lr_scheduler:
   factor: 0.5
   patience: 5
   min_lr: 1e-5
-  mode: "max" #should be min
+  mode: "min" #should be min

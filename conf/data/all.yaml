@@ -7,10 +7,12 @@ pin_memory: True
 batch_size: 32
 n_atom_type: 84
 
-root: /home/holywater2/crystal/dataset_pbc/datas_filtered
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_pbc/datas_filtered
 split_file: cubic_data_split_fix.json
 # split_file: cubic_data_split.json
-atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/crystal.json
+atom_file: ${data.pdir}/GPWNO/atom_info/crystal.json
 extension: json
 compression: xz
 rotate: false

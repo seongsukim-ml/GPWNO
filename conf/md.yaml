@@ -1,6 +1,6 @@
 expname: ${model.name}_${data.mol_name}_${postfix}
 postfix: ""
-project: MD_dft
+project: GPWNO_MD
 
 # metadata specialised for each experiment
 core:
@@ -25,7 +25,7 @@ defaults:
   - data: default_MD
   - logging: default
   - model: infgcnMD
-  - optim: fixed
+  - optim: default
   - train: default
 #    Decomment this parameter to get parallel job running
   # - override hydra/launcher: joblib

@@ -1,17 +1,29 @@
 # train_max_epochs: 20
-train_max_iter: 1000 # step
-early_stopping_patience: 1000
+train_max_iter: 10000 # step
+early_stopping_patience: 10
 
 num_workers: 0 # Should be 0 or it takes too much time / Stupid Lightning bug
 pin_memory: True
 batch_size: 32
+lattice: "mixed"
+n_atom_type: 86
 
-root: /home/holywater2/crystal/dataset_pbc/datas_filtered
-# split_file: cubic_data_split_fix.json
-split_file: cubic_data_split_010.json
-atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/crystal.json
-extension: json
-compression: xz
+# triclinic 83
+# monoclinic 86
+# orthorhombic 84
+# tetragonal 85
+# trigonal 84
+# hexagonal 87
+# cubic 88
+# mixed 86
+
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_mp
+split_file: mp_${data.lattice}_split.json
+atom_file: ${data.pdir}/GPWNO/atom_info/mp_${data.lattice}_atom_info.json
+extension: chgcar
+compression: Null
 rotate: false
 pbc: false
 
@@ -31,7 +43,7 @@ datamodule:
       atom_file: ${data.atom_file}
       extension: ${data.extension}
       compression: ${data.compression}
-      rotate: ${data.rotate}
+      # rotate: ${data.rotate}
       pbc: ${data.pbc}
   
 
@@ -45,14 +57,14 @@ datamodule:
       atom_file: ${data.atom_file}
       extension: ${data.extension}
       compression: ${data.compression}
-      rotate: ${data.rotate}
+      # rotate: ${data.rotate}
       pbc: ${data.pbc}
 
 
     test:
       _target_: source.datasets.density.DensityDataset
       split : test
-      n_samples: 4096
+      n_samples: Null
       shuffle: False
       root: ${data.root}
       split_file: ${data.split_file}

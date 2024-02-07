@@ -21,7 +21,7 @@ parser.add_argument('--mpids_path', type=str, help='Path to save MP ids JSON fil
 # Parse the command line arguments
 args = parser.parse_args()
 
-my_api_key = "pdDir9sfmf4JPMKDSJzF8W7ZJ7CyqYHE"
+my_api_key = "Your key"
 
 print("[I] Downloading MP dataset...")
 

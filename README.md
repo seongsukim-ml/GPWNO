@@ -1,29 +1,35 @@
-# Code of the Gaussian plane-wave neural operator.
+# Gaussian plane-wave neural operator (GPWNO).
+By Seongsu Kim, Feb, 2024
 
-This code is mainly inspired by the InfGCN by cheng.
+🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operot for electron density estimation***. The code of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.
 
-## Packages
+## Packages and Requirements
+All codes are run with python 3.9 and CUDA 12.0. Similar environment should also work, as this project does not rely on some rapdily changing packages.
+
 ```
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
-pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 pip install pyg-lib torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
+pip install numpy==1.23.4 scipy==1.9.3 matplotlib==3.7 tqdm
 pip install hydra-core lightning wandb
-pip install lz4 pymatgen mp-api python-dotenv
+pip install lz4 pymatgen mp-api python-dotenv PyYAML easydict
 pip install matplotlib==3.7 omegaconf
 pip install e3nn
 ```
 
-## Main code
+## Directory and Files
 ```
 .
 ├── conf                       # Training configurations
 ├── source                     # Source files 
+│   ├── baseline (optional)             
 │   ├── common                 
 │   ├── datamodule             
 │   ├── datasets               
 │   └── models (✈)            # Models are here
 │       └── GPWNO.py (⭐)   # Our Architecture
-├── my_script                  # Shorts snippets
+├── scripts                  # Shorts snippets
+├── run.py                     # Main file for running the files
+├── run.py                     # Main file for running the files
 ├── run.py                     # Main file for running the files
 └── README.md
 .
@@ -31,9 +37,11 @@ pip install e3nn
 
 ```
 
+
+
 ## Dataset
 
-Dataset QM9, MP, MD are not included since the size of dataset is too large.
+Dataset QM9, MP, MD are not included in the repositary since the size of datasets are too large.
 
 ### QM9
 
@@ -43,16 +51,13 @@ via [Figshare](https://data.dtu.dk/articles/dataset/QM9_Charge_Densities_and_Ene
 Each tarball needs to be extracted, but the inner lz4 compression should be kept. We provided code to read the
 compressed lz4 file.
 
-### Cubic
-
-The Cubic dataset contains electron charge density for 16421 (after filtering) cubic crystal system cells. The dataset
-was built by Wang et al. ([paper](https://www.nature.com/articles/s41597-022-01158-z)) and was publicly available
-via [Figshare](https://springernature.figshare.com/collections/Large_scale_dataset_of_real_space_electronic_charge_density_of_cubic_inorganic_materials_from_density_functional_theory_DFT_calculations/5368343).
-Each tarball needs to be extracted, but the inner xz compression should be kept. We provided code to read the compressed
-xz file.
-
-**WARNING:** A considerable proportion of the samples uses the rhombohedral lattice system (i.e., primitive rhomhedral
-cell instead of unit cubic cell). Some visualization tools (including `plotly`) may not be able to handle this.
+For convinience, we provide the list of the ```scripts\qm9_url.txt``` that splits url list of the QM9 files.
+After download ```aria2c```, You can use the below command
+```
+aria2c --input-file scripts\qm9_url.txt -d ../dataset_qm9
+```
+You can additionally use the ```-x``` keywords to set the multiple connections.
+See [aria2](https://aria2.github.io/) for more information.
 
 ### MD
 
@@ -62,7 +67,7 @@ from [here](https://www.nature.com/articles/s41467-020-19093-1) by Bogojeski et 
 and [here](https://arxiv.org/abs/1609.02815) by Brockherde et al. The dataset is publicly available at the Quantum
 Machine [website](http://www.quantum-machine.org/datasets/).
 
-We assume the data is stored in the `<data_root>/<mol_name>/<mol_name>_<split>/` directory, where `mol_name` should be
+We assume the data is stored in the `../dataset/<mol_name>/<mol_name>_<split>/` directory, where `mol_name` should be
 one of the molecules mentioned above and split should be either `train` or `test`. The directory should contain the
 following files:
 
@@ -78,16 +83,22 @@ coefficients, and we provided code to convert them.
 
 ## Materials Project
 
-The MP dataset has not official figshare, so it need to be downloade by handed query. You can download the all MP dataset with this code:
+The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) has not official download site,
+so it need to be downloade by handed query by API. To download the full dataset, we provide our download code. You need to register your api key in
+```scirpts/MP/download_mp.py``` from [Materials project](https://next-gen.materialsproject.org/api).
+
+You can download the all MP dataset with this code
 ```
 python scripts/MP/download_mp.py
 ```
 
 Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp_mixed` with the data split we attach.
+FYI, it took about 7days to download all for me.
 
 ## Running the code
 
 Before run the code, you have to modify the `.env` files as proper directory in your system.
+And also you have to fix the path of the configure in the `conf/data`.
 
 ### MD
 ```

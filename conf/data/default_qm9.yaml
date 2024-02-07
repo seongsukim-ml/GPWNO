@@ -6,10 +6,12 @@ num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug
 pin_memory: True
 batch_size: 32
 
-root: /home/holywater2/crystal/dataset_qm9
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_qm9
 # split_file: cubic_data_split_fix.json
 split_file: datasplits.json
-atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/qm9.json
+atom_file: ${data.pdir}/GPWNO/atom_info/qm9_atom_info.json
 extension: CHGCAR
 compression: lz4
 pbc: false

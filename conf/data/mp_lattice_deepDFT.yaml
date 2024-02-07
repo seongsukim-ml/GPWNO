@@ -8,16 +8,9 @@ batch_size: 32
 lattice: "cubic"
 n_atom_type: 87
 
-# triclinic 85
-# monoclinic 85
-# orthorhombic 87
-# tetragonal 87
-# trigonal 86
-# hexagonal 85
-# cubic 87
-# mixed 86
+pdir: /home/holywater2/crystal
 
-root: /home/holywater2/crystal/dataset_mp_mixed
+root: ${data.pdir}/dataset_mp
 split_file: mp_${data.lattice}_split.json
 # split_file: cubic_data_split.json
 # atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/mp_mixed.json

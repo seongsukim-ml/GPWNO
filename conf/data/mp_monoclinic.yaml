@@ -6,21 +6,22 @@ num_workers: 0 # Should be 0 or it takes too much time / Stupid Lightning bug
 pin_memory: True
 batch_size: 32
 lattice: "monoclinic"
-n_atom_type: 85
+n_atom_type: 86
 
-# triclinic 85
-# monoclinic 85
-# orthorhombic 87
-# tetragonal 87
-# trigonal 86
-# hexagonal 85
-# cubic 87
+# triclinic 83
+# monoclinic 86
+# orthorhombic 84
+# tetragonal 85
+# trigonal 84
+# hexagonal 87
+# cubic 88
 # mixed 86
 
-root: /home/holywater2/crystal/dataset_mp_mixed
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_mp
 split_file: mp_${data.lattice}_split.json
-# split_file: cubic_data_split.json
-atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/mp_${data.lattice}_atom_info.json
+atom_file: ${data.pdir}/GPWNO/atom_info/mp_${data.lattice}_atom_info.json
 extension: chgcar
 compression: Null
 rotate: false

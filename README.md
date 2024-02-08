@@ -86,7 +86,7 @@ directory with `--root` and the output directory with `--out`.
 All MD datasets assume a cubic box with side length of 20 Bohr and 50 grids per side. The densities are store as Fourier
 coefficients, and we provided code to convert them.
 
-## Materials Project
+### Materials Project
 
 The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) has not official download site,
 so it need to be downloade by handed query by API. To download the full dataset, we provide our download code. You need to register your api key in

@@ -1,0 +1,19 @@
+# Tetagonal (svr6)
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data=mp_tetragonal \
+    train.random_seed=42,1,2 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=mp \
+    model=infgcn \
+    data=mp_tetragonal \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw

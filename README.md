@@ -119,23 +119,17 @@ python run.py --config-name=md \
 ### QM9
 ```
 python run.py --config-name=qm9 \
-    model=GPWNO_QM9 \
-    data.num_workers=32 \
-    logging=draw \
+    model=GPWNO_QM9
 ```
 
 ### MP
 ```
 # default is mixed
 python run.py --config-name=mp \
-    model=GPWNO_pbc \
-    data.num_workers=32 \
-    logging=draw
+    model=GPWNO_pbc
 
 # specify the lattice type
 python run.py --config-name=mp \
     model=GPWNO_pbc \
-    data=mp_tetragonal \
-    data.num_workers=32 \
-    logging=draw
+    data=mp_tetragonal
 ```

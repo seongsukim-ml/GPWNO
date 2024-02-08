@@ -8,10 +8,10 @@
 # Gaussian plane-wave neural operator (GPWNO).
 By Seongsu Kim, Feb, 2024 [[arxiv]](https://arxiv.org/abs/2402.04278) [[PDF]](https://arxiv.org/pdf/2402.04278.pdf)
 
-🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operot for electron density estimation***. The code of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.
+🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operator for electron density estimation***. The code of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.
 
 ## Packages and Requirements
-All codes are run with python 3.9 and CUDA 12.0. Similar environment should also work, as this project does not rely on some rapdily changing packages.
+All codes are run with python 3.9 and CUDA 12.0. A similar environment should also work, as this project does not rely on some rapidly changing packages.
 
 ```
 conda create -n GPWNO python==3.9
@@ -46,7 +46,7 @@ pip install e3nn
 ---
 ## Dataset
 
-Dataset QM9, MP, MD are not included in the repositary since the size of datasets are too large.
+Datasets QM9, MP, and MD are not included in the repository since the size of the datasets is too large.
 
 ### QM9
 
@@ -56,7 +56,7 @@ via [Figshare](https://data.dtu.dk/articles/dataset/QM9_Charge_Densities_and_Ene
 Each tarball needs to be extracted, but the inner lz4 compression should be kept. We provided code to read the
 compressed lz4 file.
 
-For convinience, we provide the list of the ```scripts\qm9_url.txt``` that splits url list of the QM9 files.
+For convenience, we provide the list of the ```scripts\qm9_url.txt``` that splits url list of the QM9 files.
 After download ```aria2c```, You can use the below command
 ```
 aria2c --input-file scripts\qm9_url.txt -d ../dataset_qm9
@@ -83,16 +83,16 @@ This is the format for the latter four molecules (you can safely ignore other fi
 molecules, run `python generate_dataset.py` to generate the correctly formatted data. You can also specify the data
 directory with `--root` and the output directory with `--out`.
 
-All MD datasets assume a cubic box with side length of 20 Bohr and 50 grids per side. The densities are store as Fourier
+All MD datasets assume a cubic box with a side length of 20 Bohr and 50 grids per side. The densities are stored as Fourier
 coefficients, and we provided code to convert them.
 
 ### Materials Project
 
-The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) has not official download site,
-so it need to be downloade by handed query by API. To download the full dataset, we provide our download code. You need to register your api key in
+The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) does not have an official download site,
+so it needs to be downloaded by handed query by API. To download the full dataset, we provide our download code. You need to register your API key in
 ```scirpts/MP/download_mp.py``` from [Materials project](https://next-gen.materialsproject.org/api).
 
-You can download the all MP dataset with this code
+You can download all the MP datasets with this code
 ```
 python scripts/MP/download_mp.py
 ```
@@ -103,8 +103,8 @@ FYI, it took about 7days to download all for me.
 ---
 ## Running the code
 
-Before run the code, you have to modify the `.env` files as proper directory in your system.
-And also you have to fix the path of the configure in the `conf/data`.
+\[⚠️Note\] Before running the code, you have to modify the `.env` files as a proper directory in your system.
+And also you have to fix the path of the configure in the `conf/data`. Other scripts that is used for running code are in `scripts` directory.
 
 ### MD
 ```

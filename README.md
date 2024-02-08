@@ -97,7 +97,7 @@ You can download all the MP datasets with this code
 python scripts/MP/download_mp.py
 ```
 
-Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp_mixed` with the data split we attach.
+Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp` with the data split we attach.
 FYI, it took about 7days to download all for me.
 
 ---

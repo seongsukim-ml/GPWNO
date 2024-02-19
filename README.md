@@ -88,8 +88,10 @@ coefficients, and we provided code to convert them.
 
 ### Materials Project
 
-The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) does not have an official download site,
-so it needs to be downloaded by handed query by API. To download the full dataset, we provide our download code. You need to register your API key in
+The [MP dataset](https://next-gen.materialsproject.org/ml/charge_densities) curated from [here](https://arxiv.org/abs/2107.03540) is the dataset of the inorganic crystalline materials. We newly conduct a benchmark from the MP by categorizing the 117,535 molecules into seven crystal families:  triclinic, monoclinic, orthorhombic, tetragonal, trigonal, hexagonal, and cubic. We also providied the list of the materials on our experiments in the code. 
+
+MP does not have an official download site,
+it needs to be downloaded by handed query by API. To download the full dataset, you can use the download code we provide. You need to register your API key in
 ```scirpts/MP/download_mp.py``` from [Materials project](https://next-gen.materialsproject.org/api).
 
 You can download all the MP datasets with this code

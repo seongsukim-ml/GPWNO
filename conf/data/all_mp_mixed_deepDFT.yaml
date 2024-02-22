@@ -7,8 +7,19 @@ pin_memory: True
 batch_size: 32
 lattice: mixed
 
-root: /home/holywater2/crystal/dataset_mp_mixed
-split_file: mp_mixed_split.json
+# triclinic 83
+# monoclinic 86
+# orthorhombic 84
+# tetragonal 85
+# trigonal 84
+# hexagonal 87
+# cubic 88
+# mixed 86
+
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_mp
+split_file: ${data.pdir}/GPWNO/data_splits/mp_splits/mp_${data.lattice}_split.json
 # split_file: cubic_data_split.json
 # atom_file: /home/holywater2/crystal/InfGCN-pytorch/atom_info/mp_mixed.json
 extension: chgcar

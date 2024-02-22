@@ -1,0 +1,10 @@
+name: charge3net
+_target_: source.baseline.charge3net_wrap.charge3net
+
+num_interactions: 3
+num_neighbors: 20
+mul: 500
+lmax: 4
+cutoff: 4.0
+basis: "gaussian"
+num_basis: 20

@@ -1,0 +1,7 @@
+name: deepDFT_painn_${model.use_painn_model}_co${model.cutoff}_num${model.num_interactions}_hs${model.hidden_state_size}
+_target_: source.baseline.deepdft_wrap.deepDFT
+
+num_interactions: 3
+hidden_state_size: 64
+cutoff: 3.0
+use_painn_model: False # False is DDFT1, True is DDFT2

@@ -1,0 +1,8 @@
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=7 python run.py \
+--config-name=mp \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=charge3net \
+data=all_mp_mixed_deepDFT \
+data.lattice=tetragonal

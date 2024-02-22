@@ -9,11 +9,99 @@ CUDA_VISIBLE_DEVICES=7 python run.py -m \
     data.num_workers=32 \
     logging=draw
 
+CUDA_VISIBLE_DEVICES=7 python run.py \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data=mp_tetragonal \
+    train.random_seed=42 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
 CUDA_VISIBLE_DEVICES=6 python run.py -m \
     --config-name=mp \
     model=infgcn \
+    model.num_spherical=3 \
     data=mp_tetragonal \
     train.random_seed=42,1,2 \
     postfix=rep \
     data.num_workers=32 \
     logging=draw
+
+# hexagonal, monoclinic, mixed (svr10)
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=mp \
+    model=infgcn \
+    model.num_spherical=3 \
+    data=mp_hexagonal \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data=mp_hexagonal \
+    train.random_seed=42,1,2 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
+# trigonal, orthorhombic, mixed (svr9)
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data=mp_trigonal \
+    train.random_seed=42,1,2 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=mp \
+    model=infgcn \
+    model.num_spherical=3 \
+    data=mp_trigonal \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data=mp_orthorhombic \
+    train.random_seed=42,1,2 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m \
+    --config-name=mp \
+    model=infgcn \
+    model.num_spherical=3 \
+    data=mp_orthorhombic \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=3 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    train.random_seed=42,1,2 \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m \
+    --config-name=mp \
+    model=infgcn \
+    model.num_spherical=3 \
+    train.random_seed=42,1,2 \
+    postfix=rep \
+    data.num_workers=32 \
+    logging=draw
+
+# cubic, triclinic (cluster)

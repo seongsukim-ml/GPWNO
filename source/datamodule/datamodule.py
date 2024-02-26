@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 
 # from torch.utils.data import DataLoader
 import hydra
+from hydra.utils import instantiate
 from omegaconf import DictConfig
 
 
@@ -34,18 +35,16 @@ class CrystalDatamodule(pl.LightningDataModule):
     def setup(self, stage: str = None):
         # Assign train/val datasets for use in dataloaders
         if stage is None or stage == "fit":
-            self.dataset_train = hydra.utils.instantiate(self.datasets.train)
-            self.dataset_val = hydra.utils.instantiate(self.datasets.val)
+            self.dataset_train = instantiate(self.datasets.train)
+            self.dataset_val = instantiate(self.datasets.val)
         # Assign test dataset for use in dataloader(s)
         if stage is None or stage == "test":
-            self.dataset_test = hydra.utils.instantiate(self.datasets.test)
+            self.dataset_test = instantiate(self.datasets.test)
             if self.rotate:
-                self.dataset_rotate = hydra.utils.instantiate(
-                    self.datasets.test, rotate=True
-                )
+                self.dataset_rotate = instantiate(self.datasets.test, rotate=True)
 
     def train_dataloader(self):
-        train_col = hydra.utils.instantiate(
+        train_col = instantiate(
             self.collate_fn, n_samples=self.datasets.train.n_samples
         )
         return DataLoader(
@@ -59,9 +58,7 @@ class CrystalDatamodule(pl.LightningDataModule):
         )
 
     def val_dataloader(self):
-        val_col = hydra.utils.instantiate(
-            self.collate_fn, n_samples=self.datasets.val.n_samples
-        )
+        val_col = instantiate(self.collate_fn, n_samples=self.datasets.val.n_samples)
         return DataLoader(
             self.dataset_val,
             pin_memory=self.pin_memory,
@@ -71,11 +68,9 @@ class CrystalDatamodule(pl.LightningDataModule):
             num_workers=self.num_workers.val,
             collate_fn=val_col,
         )
-        
+
     def inf_dataloader(self):
-        val_col = hydra.utils.instantiate(
-            self.collate_fn, n_samples=None
-        )
+        val_col = instantiate(self.collate_fn, n_samples=None)
         return DataLoader(
             self.dataset_test,
             pin_memory=self.pin_memory,
@@ -87,9 +82,7 @@ class CrystalDatamodule(pl.LightningDataModule):
         )
 
     def test_dataloader(self):
-        test_col = hydra.utils.instantiate(
-            self.collate_fn, n_samples=self.datasets.test.n_samples
-        )
+        test_col = instantiate(self.collate_fn, n_samples=self.datasets.test.n_samples)
         return DataLoader(
             self.dataset_test,
             pin_memory=self.pin_memory,
@@ -101,9 +94,7 @@ class CrystalDatamodule(pl.LightningDataModule):
         )
 
     def test_rotate_dataloader(self):
-        test_col = hydra.utils.instantiate(
-            self.collate_fn, n_samples=self.datasets.test.n_samples
-        )
+        test_col = instantiate(self.collate_fn, n_samples=self.datasets.test.n_samples)
         return DataLoader(
             self.dataset_rotate,
             pin_memory=self.pin_memory,

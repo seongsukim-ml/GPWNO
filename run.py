@@ -1,20 +1,21 @@
 from pathlib import Path
 from typing import List
 
-import hydra
-import numpy as np
-import torch
-import omegaconf
-import pytorch_lightning as pl
-
-
-from hydra.core.hydra_config import HydraConfig
-from omegaconf import DictConfig, OmegaConf
-from pytorch_lightning import seed_everything, Callback
-from pytorch_lightning.loggers import WandbLogger
-import wandb
-from source.common.utils import build_callbacks, log_hyperparameters, PROJECT_ROOT
 import os
+import wandb
+
+import omegaconf
+from omegaconf import DictConfig, OmegaConf
+
+import hydra
+from hydra.utils import instantiate, log
+from hydra.core.hydra_config import HydraConfig
+
+import pytorch_lightning as pl
+from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning import seed_everything, Callback
+
+from source.common.utils import build_callbacks, log_hyperparameters, PROJECT_ROOT
 
 
 def run(cfg: DictConfig) -> None:
@@ -28,21 +29,6 @@ def run(cfg: DictConfig) -> None:
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
 
-    """ For debugging purposes """
-    if cfg.train.pl_trainer.fast_dev_run:
-        hydra.utils.log.info(
-            f"Debug mode <{cfg.train.pl_trainer.fast_dev_run=}>. "
-            f"Forcing debugger friendly configuration!"
-        )
-        # Debuggers don't like GPUs nor multiprocessing
-        # cfg.train.pl_trainer.gpus = 0
-        cfg.data.datamodule.num_workers.train = 0
-        cfg.data.datamodule.num_workers.val = 0
-        cfg.data.datamodule.num_workers.test = 0
-
-        # Switch wandb mode to offline to prevent online logging
-        cfg.logging.wandb.mode = "offline"
-
     """ Hydra run directory """
     if HydraConfig.get().mode.name == "MULTIRUN":
         hydra_dir = Path(
@@ -52,18 +38,18 @@ def run(cfg: DictConfig) -> None:
     else:
         hydra_dir = Path(HydraConfig.get().run.dir)
 
-    hydra.utils.log.info(f"Saving os.getcwd is <{os.getcwd()}>")
-    hydra.utils.log.info(f"Saving hydra_dir is <{hydra_dir}>")
+    log.info(f"Saving os.getcwd is <{os.getcwd()}>")
+    log.info(f"Saving hydra_dir is <{hydra_dir}>")
 
     """ Instantiate datamodule """
-    hydra.utils.log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
-    datamodule: pl.LightningDataModule = hydra.utils.instantiate(
+    log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
+    datamodule: pl.LightningDataModule = instantiate(
         cfg.data.datamodule, _recursive_=False
     )
 
     """ Instantiate model """
-    hydra.utils.log.info(f"Instantiating <{cfg.model._target_}>")
-    model: pl.LightningModule = hydra.utils.instantiate(
+    log.info(f"Instantiating <{cfg.model._target_}>")
+    model: pl.LightningModule = instantiate(
         cfg.model,
         optim=cfg.optim,
         data=cfg.data,
@@ -77,14 +63,14 @@ def run(cfg: DictConfig) -> None:
     """ Logger instantiation/configuration """
     wandb_logger = None
     if "wandb" in cfg.logging:
-        hydra.utils.log.info("Instantiating <WandbLogger>")
+        log.info("Instantiating <WandbLogger>")
         wandb_config = cfg.logging.wandb
         wandb_logger = WandbLogger(
             **wandb_config,
             save_dir=hydra_dir,
             tags=cfg.core.tags,
         )
-        hydra.utils.log.info("W&B is now watching <{cfg.logging.wandb_watch.log}>!")
+        log.info("W&B is now watching <{cfg.logging.wandb_watch.log}>!")
         wandb_logger.watch(
             model,
             log=cfg.logging.wandb_watch.log,
@@ -95,7 +81,8 @@ def run(cfg: DictConfig) -> None:
     yaml_conf: str = OmegaConf.to_yaml(cfg=cfg)
     (hydra_dir / "hparams.yaml").write_text(yaml_conf)
 
-    hydra.utils.log.info("Instantiating the Trainer")
+    """ Trainer instantiation """
+    log.info("Instantiating the Trainer")
     trainer = pl.Trainer(
         accelerator="auto",
         default_root_dir=hydra_dir,
@@ -109,24 +96,26 @@ def run(cfg: DictConfig) -> None:
 
     log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
 
+    """ Data preparation """
     datamodule.setup()
     train_dataloader = datamodule.train_dataloader()
     val_data_loader = datamodule.val_dataloader()
     test_data_loader = datamodule.test_dataloader()
 
-    hydra.utils.log.info("Starting training!")
+    """ Train and test"""
+    log.info("Starting training!")
     trainer.fit(
         model=model,
         train_dataloaders=train_dataloader,
         val_dataloaders=val_data_loader,
     )
 
-    hydra.utils.log.info("Starting testing!")
+    log.info("Starting testing!")
     trainer.test(model=model, dataloaders=test_data_loader, ckpt_path="best")
 
     if datamodule.rotate:
         model.rotate = True
-        hydra.utils.log.info("Starting testing on rotated data!")
+        log.info("Starting testing on rotated data!")
         test_rotate_dataloader = datamodule.test_rotate_dataloader()
         trainer.test(model=model, dataloaders=test_rotate_dataloader, ckpt_path="best")
 

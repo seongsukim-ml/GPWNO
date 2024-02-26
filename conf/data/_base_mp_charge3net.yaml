@@ -1,0 +1,33 @@
+# train_max_epochs: 20
+train_max_iter: 10000 # step
+early_stopping_patience: 1000
+
+num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug
+pin_memory: False
+batch_size: 16
+lattice: mixed
+
+pdir: /home/holywater2/crystal
+
+root: ${data.pdir}/dataset_mp
+split_file: ${data.pdir}/GPWNO/data_splits/mp_splits/mp_${data.lattice}_split.json
+extension: chgcar
+compression: Null
+
+datamodule:
+  _target_: source.datasets.density_charge3net.DensityDatamodule
+  root: ${data.root}
+  split_file: ${data.split_file}
+  graph_constructor:
+    _target_: source.datasets.charge3net.graph_construction.KdTreeGraphConstructor
+    _partial_: True
+    cutoff: 4.0
+    disable_pbc: False  
+  train_probes: 256
+  val_probes: 256
+  batch_size: ${data.batch_size}
+  train_workers: ${data.num_workers}
+  val_workers: ${data.num_workers} # test_workers use the same value
+  pin_memory: ${data.pin_memory}
+  drop_last: False
+  max_grid_construction_size: 10000000

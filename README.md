@@ -135,3 +135,25 @@ python run.py --config-name=mp \
     model=GPWNO_pbc \
     data=mp_tetragonal
 ```
+
+## Citation
+If you find this code useful, please cite our paper
+```
+@misc{kim2024gaussian,
+      title={Gaussian Plane-Wave Neural Operator for Electron Density Estimation}, 
+      author={Seongsu Kim and Sungsoo Ahn},
+      year={2024},
+      eprint={2402.04278},
+      archivePrefix={arXiv},
+      primaryClass={physics.chem-ph}
+}
+```
+
+## Baseline reference
+We implemented these baselines in out repo:
+
+[DeepDFT](https://github.com/peterbjorgensen/DeepDFT)
+
+[InfGCN](https://github.com/ccr-cheng/infgcn-pytorch)
+
+[charge3net](https://github.com/AIforGreatGood/charge3net)

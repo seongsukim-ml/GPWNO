@@ -36,7 +36,7 @@ class E3DensityModel(nn.Module):
         lmax=4,
         cutoff=4.0,
         basis="gaussian",
-        num_basis=10,
+        num_basis=20,
         spin=False,
         **kwargs,
     ):
@@ -62,7 +62,7 @@ class E3DensityModel(nn.Module):
             cutoff=cutoff,
             basis=basis,
             num_basis=num_basis,
-            spin=spin
+            spin=spin,
         )
 
     def forward(self, input_dict):
@@ -70,7 +70,7 @@ class E3DensityModel(nn.Module):
         # if spin == False, (n_batch, n_probe). if spin == True, (n_batch, n_probe, 2)
         # allow it to output spin density of up/down electrons separately
         # TODO: is it better to train on spin up/down density, or charge density + spin density (like in CHGCAR)?
-        probe_result = self.probe_model(input_dict, atom_representation)   
+        probe_result = self.probe_model(input_dict, atom_representation)
         if self.spin:
             spin_up, spin_down = probe_result[:, :, 0], probe_result[:, :, 1]
             probe_result[:, :, 0] = spin_up + spin_down
@@ -94,12 +94,12 @@ class E3AtomRepresentationModel(nn.Module):
         self.cutoff = cutoff
         self.number_of_basis = num_basis
         self.basis = RadialBasis(
-            start=0.0, 
+            start=0.0,
             end=cutoff,
             number=self.number_of_basis,
             basis=basis,
             cutoff=False,
-            normalize=True
+            normalize=True,
         )
 
         self.convolutions = torch.nn.ModuleList()
@@ -169,7 +169,7 @@ class E3AtomRepresentationModel(nn.Module):
             self.gates.append(gate)
 
             # store output node irreps for each layer
-            self.atom_irreps_sequence.append(irreps_node)  
+            self.atom_irreps_sequence.append(irreps_node)
 
     def forward(self, input_dict):
         # Unpad and concatenate edges into batch (0th) dimension
@@ -242,19 +242,19 @@ class E3ProbeMessageModel(torch.nn.Module):
         cutoff=4.0,
         basis="gaussian",
         num_basis=10,
-        spin=False
+        spin=False,
     ):
         super().__init__()
         self.lmax = lmax
         self.cutoff = cutoff
         self.number_of_basis = num_basis
         self.basis = RadialBasis(
-            start=0.0, 
+            start=0.0,
             end=cutoff,
             number=self.number_of_basis,
             basis=basis,
             cutoff=False,
-            normalize=True
+            normalize=True,
         )
 
         self.convolutions = torch.nn.ModuleList()
@@ -429,6 +429,7 @@ class RadialBasis(nn.Module):
         normalize (bool): normalize function to have a mean of 0, std of 1
         samples (int): number of samples to use to find mean/std
     """
+
     def __init__(
         self,
         start,
@@ -437,7 +438,7 @@ class RadialBasis(nn.Module):
         basis="gaussian",
         cutoff=False,
         normalize=True,
-        samples=4000
+        samples=4000,
     ):
         super().__init__()
         self.start = start
@@ -449,15 +450,17 @@ class RadialBasis(nn.Module):
 
         if normalize:
             with torch.no_grad():
-                rs = torch.linspace(start, end, samples+1)[1:]
+                rs = torch.linspace(start, end, samples + 1)[1:]
                 bs = soft_one_hot_linspace(rs, start, end, number, basis, cutoff)
                 assert bs.ndim == 2 and len(bs) == samples
                 std, mean = torch.std_mean(bs, dim=0)
             self.register_buffer("mean", mean)
             self.register_buffer("inv_std", torch.reciprocal(std))
-        
+
     def forward(self, x):
-        x = soft_one_hot_linspace(x, self.start, self.end, self.number, self.basis, self.cutoff)
+        x = soft_one_hot_linspace(
+            x, self.start, self.end, self.number, self.basis, self.cutoff
+        )
         if self.normalize:
             x = (x - self.mean) * self.inv_std
         return x
@@ -547,8 +550,8 @@ def calc_edge_vec_to_probe(
 
 # Euclidean neural networks (e3nn) Copyright (c) 2020, The Regents of the
 # University of California, through Lawrence Berkeley National Laboratory
-# (subject to receipt of any required approvals from the U.S. Dept. of Energy), 
-# Ecole Polytechnique Federale de Lausanne (EPFL), Free University of Berlin 
+# (subject to receipt of any required approvals from the U.S. Dept. of Energy),
+# Ecole Polytechnique Federale de Lausanne (EPFL), Free University of Berlin
 # and Kostiantyn Lapchevskyi. All rights reserved.
 # Modified from https://github.com/e3nn/e3nn/blob/05b386177ed039156526f9c67d0d87b6c21ff5d3/e3nn/nn/models/v2103/points_convolution.py
 #  - Remove torch_scatter dependency
@@ -754,6 +757,9 @@ class ConvolutionOneWay(torch.nn.Module):
 
         edge_features = self.tp(sender_features[edge_src], edge_attr, weight)
 
+        # import pdb
+        # pdb.set_trace()
+        
         # scatter edge features from sender (atoms) to receiver (probes)
         receiver_features = scatter(
             edge_features, edge_dst, dim_size=receiver_input.shape[0]

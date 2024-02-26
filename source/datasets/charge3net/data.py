@@ -155,68 +155,72 @@ def read_vasp(filecontent, read_spin=False):
 
 
 def _read_vasp2(filepath):
-    fileobj = open(filepath, "r")
-    readline = fileobj.readline
-    readline()  # the first comment line
-    scale = float(readline())  # the scaling factor (lattice constant)
+    with open(filepath, "r") as fileobj:
+        readline = fileobj.readline
+        readline()  # the first comment line
+        scale = float(readline())  # the scaling factor (lattice constant)
 
-    # the upcoming three lines contain the cell information
-    cell = torch.empty(3, 3, dtype=torch.float)
-    for i in range(3):
-        cell[i] = torch.FloatTensor([float(s) for s in readline().split()])
-    cell = cell * scale
+        # the upcoming three lines contain the cell information
+        cell = torch.empty(3, 3, dtype=torch.float)
+        for i in range(3):
+            cell[i] = torch.FloatTensor([float(s) for s in readline().split()])
+        cell = cell * scale
 
-    # the sixth line specifies the constituting elements
-    elements = readline().split()
-    # the seventh line supplies the number of atoms per atomic species
-    n_atoms = [int(s) for s in readline().split()]
-    # the eighth line is always "Direct" in our application
-    readline()
+        # the sixth line specifies the constituting elements
+        elements = readline().split()
+        # the seventh line supplies the number of atoms per atomic species
+        n_atoms = [int(s) for s in readline().split()]
+        # the eighth line is always "Direct" in our application
+        readline()
 
-    tot_atoms = sum(n_atoms)
-    atom_type = []
-    atom_coord = torch.empty(tot_atoms, 3, dtype=torch.float)
-    # the upcoming lines contains the atomic positions in fractional coordinates
-    idx = 0
-    for elem, n in zip(elements, n_atoms):
-        atom_type += [elem] * n
-        for _ in range(n):
-            atom_coord[idx] = torch.FloatTensor([float(s) for s in readline().split()])
-            idx += 1
+        tot_atoms = sum(n_atoms)
+        atom_type = []
+        atom_coord = torch.empty(tot_atoms, 3, dtype=torch.float)
+        # the upcoming lines contains the atomic positions in fractional coordinates
+        idx = 0
+        for elem, n in zip(elements, n_atoms):
+            atom_type += [elem] * n
+            for _ in range(n):
+                atom_coord[idx] = torch.FloatTensor(
+                    [float(s) for s in readline().split()]
+                )
+                idx += 1
 
-    # the coordinates are fractional, convert them to cartesian
-    atom_coord = atom_coord @ cell
-    g = Data(x=atom_type, pos=atom_coord)
+        # the coordinates are fractional, convert them to cartesian
+        atom_coord = atom_coord @ cell
+        g = Data(x=atom_type, pos=atom_coord)
 
-    readline()  # an empty line
-    shape = [int(s) for s in readline().split()]  # grid size
-    n_grid = shape[0] * shape[1] * shape[2]
-    # the grids are corner-aligned
-    x_coord = (
-        torch.linspace(0, shape[0] - 1, shape[0]).unsqueeze(-1) / shape[0] * cell[0]
-    )
-    y_coord = (
-        torch.linspace(0, shape[1] - 1, shape[1]).unsqueeze(-1) / shape[1] * cell[1]
-    )
-    z_coord = (
-        torch.linspace(0, shape[2] - 1, shape[2]).unsqueeze(-1) / shape[2] * cell[2]
-    )
-    grid_coord = (
-        x_coord.view(-1, 1, 1, 3)
-        + y_coord.view(1, -1, 1, 3)
-        + z_coord.view(1, 1, -1, 3)
-    )
-    grid_coord = grid_coord.view(-1, 3)
+        readline()  # an empty line
+        shape = [int(s) for s in readline().split()]  # grid size
+        n_grid = shape[0] * shape[1] * shape[2]
+        # the grids are corner-aligned
+        x_coord = (
+            torch.linspace(0, shape[0] - 1, shape[0]).unsqueeze(-1) / shape[0] * cell[0]
+        )
+        y_coord = (
+            torch.linspace(0, shape[1] - 1, shape[1]).unsqueeze(-1) / shape[1] * cell[1]
+        )
+        z_coord = (
+            torch.linspace(0, shape[2] - 1, shape[2]).unsqueeze(-1) / shape[2] * cell[2]
+        )
+        grid_coord = (
+            x_coord.view(-1, 1, 1, 3)
+            + y_coord.view(1, -1, 1, 3)
+            + z_coord.view(1, 1, -1, 3)
+        )
+        grid_coord = grid_coord.view(-1, 3)
 
-    # the augmented occupancies are ignored
-    density = torch.FloatTensor([float(s) for s in fileobj.read().split()[:n_grid]])
-    # the value stored is the charge within a grid instead of the charge density
-    # divide the charge by the grid volume to get the density
-    volume = torch.linalg.det(cell).abs()
-    density = density / volume
-    # CHGCAR file stores the density as Z-Y-X, convert them to X-Y-Z
-    density = density.view(shape[2], shape[1], shape[0]).transpose(0, 2).contiguous()
-    atoms = ase.Atoms(symbols=atom_type, positions=atom_coord, cell=cell.numpy())
+        # the augmented occupancies are ignored
+        density = torch.FloatTensor([float(s) for s in fileobj.read().split()[:n_grid]])
+        # the value stored is the charge within a grid instead of the charge density
+        # divide the charge by the grid volume to get the density
+        volume = torch.linalg.det(cell).abs()
+        density = density / volume
+        # CHGCAR file stores the density as Z-Y-X, convert them to X-Y-Z
+        density = (
+            density.view(shape[2], shape[1], shape[0]).transpose(0, 2).contiguous()
+        )
+        atoms = ase.Atoms(symbols=atom_type, positions=atom_coord, cell=cell.numpy())
     return density, atoms, np.zeros(3)
 
 

@@ -8,7 +8,7 @@
 # Gaussian plane-wave neural operator (GPWNO).
 By Seongsu Kim, Feb, 2024 [[arxiv]](https://arxiv.org/abs/2402.04278) [[PDF]](https://arxiv.org/pdf/2402.04278.pdf)
 
-🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operator for electron density estimation***. The code of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.
+🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operator for electron density estimation***. The code implementation of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.
 
 ## Packages and Requirements
 All codes are run with python 3.9 and CUDA 12.0. A similar environment should also work, as this project does not rely on some rapidly changing packages.
@@ -100,12 +100,12 @@ python scripts/MP/download_mp.py
 ```
 
 Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp` with the data split we attach.
-FYI, it took about 7days to download all for me.
+FYI, it took about 7 days to download all for me.
 
 ---
 ## Running the code
 
-\[⚠️Note\] Before running the code, you have to modify the `.env` files as a proper directory in your system.
+**\[⚠️Note\]** Before running the code, you have to modify the `.env` files as a proper directory in your system.
 And also you have to fix the path of the configure in the `conf/data`. Other scripts that is used for running code are in `scripts` directory.
 
 ### MD
@@ -150,7 +150,7 @@ If you find this code useful, please cite our paper
 ```
 
 ## Baseline reference
-We implemented these baselines in out repo:
+We implemented these baselines in our repo:
 
 [DeepDFT](https://github.com/peterbjorgensen/DeepDFT)
 

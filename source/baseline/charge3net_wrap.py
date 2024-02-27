@@ -32,7 +32,7 @@ class charge3net(BaseModule):
         basis="gaussian",
         num_basis=10,
         spin=False,
-        criterion=nn.MSELoss(),
+        criterion=nn.L1Loss(),
         **kwargs,
     ):
         super().__init__()

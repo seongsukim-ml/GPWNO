@@ -9,5 +9,5 @@ cutoff: 4.0
 basis: "gaussian"
 num_basis: 20
 
-criterion:
-  _target_: torch.nn.L1Loss
+# criterion:
+#   _target_: torch.nn.L1Loss

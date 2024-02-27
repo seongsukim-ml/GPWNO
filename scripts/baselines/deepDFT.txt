@@ -1,0 +1,12 @@
+HYDRA_FULL_ERROR=1 \
+CUDA_VISIBLE_DEVICES=7 python run.py \
+--config-name=mp_mixed \
+train.random_seed=42 \
+optim.optimizer.lr=3e-4 \
+model=deepDFT \
+data=all_mp_mixed_deepDFT \
+model.num_interactions=6 \
+model.hidden_state_size=128 \
+model.cutoff=3.0 \
+data.num_workers=16 \
+model.use_painn_model=False

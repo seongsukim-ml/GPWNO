@@ -1,14 +1,17 @@
 from typing import Any
 from lightning.pytorch.utilities.types import STEP_OUTPUT
+
 import torch
 import torch.nn as nn
-from lightning.pytorch import LightningModule
-from source.common.visualize import draw_stack
-from lightning.pytorch.loggers import WandbLogger
+
+# from lightning.pytorch import LightningModule
+# from lightning.pytorch.loggers import WandbLogger
+
 from source.models.utils import BaseModule
+from source.common.visualize import draw_stack
 
 
-class InfGCN_interface(BaseModule):
+class interface(BaseModule):
     def __init__(
         self,
         *args,

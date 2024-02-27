@@ -1,5 +1,5 @@
 name: infgcn_co${model.cutoff}_gc${model.grid_cutoff}sp${model.num_spherical}_gcns${model.num_gcn_layer}_res${model.residual}
-_target_: source.models.infgcn.InfGCN
+_target_: source.models.baseline.infgcn.InfGCN
 
 n_atom_type: ${data.n_atom_type}
 num_radial: 16

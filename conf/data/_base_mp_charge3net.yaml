@@ -1,5 +1,5 @@
 # train_max_epochs: 20
-train_max_iter: 10000 # step
+train_max_iter: 100000 # step
 early_stopping_patience: 1000
 
 num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug

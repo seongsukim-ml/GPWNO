@@ -11,10 +11,11 @@ from e3nn import o3
 from e3nn.math import soft_one_hot_linspace
 from e3nn.nn import FullyConnectedNet, Extract, Activation
 
+from source.models.GPWNO_utils import *
+from source.models.PWNO_utils import *
+from source.models.interface_with_log import interface
 from source.models.orbital import GaussianOrbital
-from source.models.infgcn_utils import *
-from source.models.FNO_utils import *
-from source.models.interface_with_log import InfGCN_interface
+
 
 def pbc_vec(vec, cell):
     """
@@ -113,7 +114,7 @@ class PWNO(nn.Module):
         return x
 
 
-class GPWNO(InfGCN_interface):
+class GPWNO(interface):
     def __init__(
         self,
         n_atom_type,
@@ -344,7 +345,6 @@ class GPWNO(InfGCN_interface):
             self.atom_radius = [radius for idx, radius in enumerate(atom_radius)]
             self.atom_radius = torch.FloatTensor(self.atom_radius)
 
-
     def forward(self, atom_types, atom_coord, grid, batch, infos, mode="train"):
         """
         Network forward
@@ -415,13 +415,9 @@ class GPWNO(InfGCN_interface):
             if i != self.num_gcn_layer - 1:
                 feat = self.act_RNO(feat)
 
-        # import pdb;
-        # pdb.set_trace()
-
         # Probe node bin
         bins_lin = torch.linspace(0, 1, self.num_fourier).to(batch.device)
         if self.pbc:
-            # import pdb; pdb.set_trace()
             half = len(bins_lin) // 2
             super_bins = torch.cat(
                 [bins_lin[half:-1] - 1, bins_lin, bins_lin[1:half] + 1]
@@ -450,8 +446,6 @@ class GPWNO(InfGCN_interface):
                 super_probe_idx_help[:, 2],
             ].reshape(-1)
             del super_probe_idx_help
-
-            # bins_lin = bins_lin[:-1]
 
         if self.use_max_cell and self.equivariant_frame:
             bins -= 0.5
@@ -538,8 +532,6 @@ class GPWNO(InfGCN_interface):
             else 0
         )
 
-        # import pdb
-
         # Probe feature
         if self.pbc:
             probe_edge = super_probe_flat[super_probe_dst] - atom_coord[probe_src]
@@ -568,8 +560,6 @@ class GPWNO(InfGCN_interface):
             cutoff=False,
         ).mul(self.radial_embed_size**0.5)
 
-        # import pdb; pdb.set_trace()
-
         # feat: (probe_src.size(0), sp_feat(4-> 400))
         # probe_feat: (b,f*f*f,c)
 
@@ -591,105 +581,106 @@ class GPWNO(InfGCN_interface):
         # Potential
         minimal_dist_grid = torch.zeros(grid.size(0), grid.size(1))
         for batch_idx in range(grid.size(0)):
-            # import pdb; pdb.set_trace()
             if self.pbc:
-                minimal_dist_grid[batch_idx] = (
-                    torch.min(
-                        torch.min(
-                            torch.norm(
-                                grid[batch_idx].unsqueeze(1).unsqueeze(1)  # (G,1,1,3)
-                                - atom_coord[batch == batch_idx]
-                                .unsqueeze(0)
-                                .unsqueeze(0)  # (1,1,N,3)
-                                + torch.stack(
-                                    [
-                                        i * cell[batch_idx][0]
-                                        + j * cell[batch_idx][1]
-                                        + k * cell[batch_idx][2]
-                                        for i in [-1, 0, 1]
-                                        for j in [-1, 0, 1]
-                                        for k in [-1, 0, 1]
-                                    ],
-                                    dim=0,
-                                ).reshape(
-                                    1, 27, 1, 3
-                                ),  # (1,27,1,3)
-                                dim=-1,
-                            ),
-                            dim=-2,
-                        )[0],
-                        dim=-1,
-                    )[0]
-                )
-            else:
-                minimal_dist_grid[batch_idx] = (
+                minimal_dist_grid[batch_idx] = torch.min(
                     torch.min(
                         torch.norm(
-                            grid[batch_idx].unsqueeze(1)  # (G,1,3)
-                            - atom_coord[batch == batch_idx].unsqueeze(0),  # (1,N,3)
+                            grid[batch_idx].unsqueeze(1).unsqueeze(1)  # (G,1,1,3)
+                            - atom_coord[batch == batch_idx]
+                            .unsqueeze(0)
+                            .unsqueeze(0)  # (1,1,N,3)
+                            + torch.stack(
+                                [
+                                    i * cell[batch_idx][0]
+                                    + j * cell[batch_idx][1]
+                                    + k * cell[batch_idx][2]
+                                    for i in [-1, 0, 1]
+                                    for j in [-1, 0, 1]
+                                    for k in [-1, 0, 1]
+                                ],
+                                dim=0,
+                            ).reshape(
+                                1, 27, 1, 3
+                            ),  # (1,27,1,3)
                             dim=-1,
                         ),
+                        dim=-2,
+                    )[0],
+                    dim=-1,
+                )[0]
+            else:
+                minimal_dist_grid[batch_idx] = torch.min(
+                    torch.norm(
+                        grid[batch_idx].unsqueeze(1)  # (G,1,3)
+                        - atom_coord[batch == batch_idx].unsqueeze(0),  # (1,N,3)
                         dim=-1,
-                    )[0]
-                )
+                    ),
+                    dim=-1,
+                )[0]
         mask = minimal_dist_grid > self.mask_cutoff
 
         # atomic_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3).to(
         #     batch.device)
-        atomic_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3,10).to(
-            batch.device)
-        alpha = torch.tensor([0.5, 1.0, 1.5, 2.0, 2.5, 3.0,3.5,4.0,4.5,5.0]).to(batch.device)
-        alpha = alpha.reshape(1,1,10)
+        atomic_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3, 10).to(
+            batch.device
+        )
+        alpha = torch.tensor([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]).to(
+            batch.device
+        )
+        alpha = alpha.reshape(1, 1, 10)
         minimal_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3).to(
-            batch.device)
-
+            batch.device
+        )
 
         for batch_idx in range(grid.size(0)):
-            # import pdb; pdb.set_trace()
             if self.pbc:
                 pr = probe.reshape(grid.size(0), -1, 3)
                 dist_min = torch.min(
-                            torch.norm(
-                                pr[batch_idx].unsqueeze(1).unsqueeze(1)  # (G,1,1,3)
-                                - atom_coord[batch == batch_idx]
-                                .unsqueeze(0)
-                                .unsqueeze(0)  # (1,1,N,3)
-                                + torch.stack(
-                                    [
-                                        i * cell[batch_idx][0]
-                                        + j * cell[batch_idx][1]
-                                        + k * cell[batch_idx][2]
-                                        for i in [-1, 0, 1]
-                                        for j in [-1, 0, 1]
-                                        for k in [-1, 0, 1]
-                                    ],
-                                    dim=0,
-                                ).reshape(
-                                    1, 27, 1, 3
-                                ),  # (1,27,1,3)
-                                dim=-1,
-                            ),
-                            dim=-2,
-                        )[0]
+                    torch.norm(
+                        pr[batch_idx].unsqueeze(1).unsqueeze(1)  # (G,1,1,3)
+                        - atom_coord[batch == batch_idx]
+                        .unsqueeze(0)
+                        .unsqueeze(0)  # (1,1,N,3)
+                        + torch.stack(
+                            [
+                                i * cell[batch_idx][0]
+                                + j * cell[batch_idx][1]
+                                + k * cell[batch_idx][2]
+                                for i in [-1, 0, 1]
+                                for j in [-1, 0, 1]
+                                for k in [-1, 0, 1]
+                            ],
+                            dim=0,
+                        ).reshape(
+                            1, 27, 1, 3
+                        ),  # (1,27,1,3)
+                        dim=-1,
+                    ),
+                    dim=-2,
+                )[0]
                 if self.atomic_gauss_dist and self.atom_info is not None:
                     self.atom_radius = self.atom_radius.to(batch.device)
-                    atomic_dist_probe[batch_idx] = (
-                        torch.sum(
-                            torch.exp(-alpha*(
-                                (dist_min / 
-                                (self.atom_radius[atom_types[batch == batch_idx]].unsqueeze(0)))).unsqueeze(-1)
-                            ), dim = -2
-                        )
+                    atomic_dist_probe[batch_idx] = torch.sum(
+                        torch.exp(
+                            -alpha
+                            * (
+                                (
+                                    dist_min
+                                    / (
+                                        self.atom_radius[
+                                            atom_types[batch == batch_idx]
+                                        ].unsqueeze(0)
+                                    )
+                                )
+                            ).unsqueeze(-1)
+                        ),
+                        dim=-2,
                     )
-                
-                minimal_dist_probe[batch_idx] = (
-                    torch.min(
-                        dist_min,
-                        dim=-1,
-                    )[0]
-                )
-                        
 
+                minimal_dist_probe[batch_idx] = torch.min(
+                    dist_min,
+                    dim=-1,
+                )[0]
 
         if self.input_infgcn:
             probe_vec = probe.reshape(grid.size(0), -1, 3)[
@@ -746,20 +737,20 @@ class GPWNO(InfGCN_interface):
                     self.num_fourier,
                     -1,
                 )
-    
+
             probe_feat = torch.cat([probe_feat, density_res], dim=-1)
 
         if self.input_dist:
             minimal_dist_probe = torch.exp(-minimal_dist_probe * 0.5).unsqueeze(-1)
             minimal_dist_probe = minimal_dist_probe.reshape(
-                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier,1
+                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier, 1
             )
 
             probe_feat = torch.cat([probe_feat, minimal_dist_probe], dim=-1)
-        
+
         if self.atomic_gauss_dist:
             atomic_dist_probe = atomic_dist_probe.reshape(
-                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier,10
+                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier, 10
             )
             # atomic_dist_probe = torch.exp(-atomic_dist_probe * 0.5).unsqueeze(-1)
 
@@ -854,7 +845,6 @@ class GPWNO(InfGCN_interface):
         )
 
         # torch.min(torch.norm(grid[batch_idx].unsqueeze(1).unsqueeze(1) - atom_coord[batch == batch_idx].unsqueeze(0).unsqueeze(0) + torch.stack([i * cell[batch_idx][0]+ j * cell[batch_idx][1]+ k * cell[batch_idx][2] for i in [-1, 0, 1]for j in [-1, 0, 1]for k in [-1, 0, 1]],dim=0,).reshape(1,27,1,3), dim=-1,),dim=[-1, -2],)[0]> self.mask_cutoff
-        # pdb.set_trace()
 
         if self.residual:
             grid_flat = grid.view(-1, 3)
@@ -909,9 +899,7 @@ class GPWNO(InfGCN_interface):
         scalar_field = scalar_field_gcn.reshape(grid.size(0), grid.size(1)).real
         if self.residual:
             density = density + residue.view(*density.size())
-        # import pdb
 
-        # pdb.set_trace()
         # density_threshold = density.max() * 0.01
         if self.scalar_mask:
             scalar_field = scalar_field * mask.cuda()
@@ -930,9 +918,7 @@ class GPWNO(InfGCN_interface):
         # if self.positive_output:
         #     density[density < 0] = 0
 
-        scalar_field_influence = (
-            (scalar_field.abs().sum() / density.sum()).detach()
-        )
+        scalar_field_influence = (scalar_field.abs().sum() / density.sum()).detach()
 
         log_dict = {}
         log_dict["avg_probe_degree"] = avg_probe_degree

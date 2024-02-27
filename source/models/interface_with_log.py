@@ -9,7 +9,8 @@ from source.models.utils import BaseModule
 import wandb
 import numpy as np
 
-class InfGCN_interface(BaseModule):
+
+class interface(BaseModule):
     def __init__(
         self,
         *args,
@@ -17,9 +18,9 @@ class InfGCN_interface(BaseModule):
     ):
         self.rotate = False
         super().__init__(*args, **kwargs)
-        self.no_log = ["scalar_field", "coefficient_field","probe"]
+        self.no_log = ["scalar_field", "coefficient_field", "probe"]
         self.draw_hist = False
-        
+
     def forward(self, atom_types, atom_coord, grid, batch, infos):
         """
         Network forward
@@ -51,7 +52,7 @@ class InfGCN_interface(BaseModule):
         for elem in self.no_log:
             if elem in result_dict:
                 result_dict.pop(elem)
-            
+
         self.log_dict(
             {f"train_stat/{k}": v for k, v in result_dict.items()},
             batch_size=batch_size,
@@ -78,13 +79,13 @@ class InfGCN_interface(BaseModule):
         for elem in self.no_log:
             if elem in result_dict:
                 result_dict.pop(elem)
-        
+
         self.log_dict(
             {f"val_stat/{k}": v for k, v in result_dict.items()},
             batch_size=batch_size,
         )
         del result_dict
-        
+
         return loss
 
     # def on_validation_epoch_end(self, batch, outs):
@@ -106,7 +107,6 @@ class InfGCN_interface(BaseModule):
             for vis_idx, (p, d, info) in enumerate(zip(pred, densities, infos)):
                 if vis_idx >= num_vis:
                     break
-                # import pdb; pdb.set_trace()
                 shape = info["shape"]
                 mask = g.batch == vis_idx
                 atom_type, coord = g.x[mask], g.pos[mask]
@@ -127,12 +127,20 @@ class InfGCN_interface(BaseModule):
                     images=[draw_stack(d - p, atom_type, coord)],
                 )
                 if "scalar_field" in logs:
-                    scalar_field = logs["scalar_field"][vis_idx][:num_voxel].view(*shape)
+                    scalar_field = logs["scalar_field"][vis_idx][:num_voxel].view(
+                        *shape
+                    )
                     if "probe" in logs:
-                        probe = logs["probe"][vis_idx]@ torch.linalg.inv(grid_cell).cpu()
+                        probe = (
+                            logs["probe"][vis_idx] @ torch.linalg.inv(grid_cell).cpu()
+                        )
                         self.logger.log_image(
                             key=f"inf{rot}/scalar_field_{vis_idx}",
-                            images=[draw_stack_probe(scalar_field, atom_type, coord,probe=probe)],
+                            images=[
+                                draw_stack_probe(
+                                    scalar_field, atom_type, coord, probe=probe
+                                )
+                            ],
                         )
                     else:
                         self.logger.log_image(
@@ -140,29 +148,68 @@ class InfGCN_interface(BaseModule):
                             images=[draw_stack(scalar_field, atom_type, coord)],
                         )
                 if "scalar_field" in logs:
-                    coeff_field = p-logs["scalar_field"][vis_idx][:num_voxel].view(*shape)
+                    coeff_field = p - logs["scalar_field"][vis_idx][:num_voxel].view(
+                        *shape
+                    )
                     self.logger.log_image(
                         key=f"inf{rot}/coeff_field_{vis_idx}",
                         images=[draw_stack(coeff_field, atom_type, coord)],
                     )
                 if self.draw_hist:
                     wandb_logger = self.logger.experiment
-                    make_table = lambda x: wandb.Table(columns=["density"],data=[[pt] for pt in x.flatten().cpu()])
-            
-                    wandb_logger.log({f"inf{rot}/density_hist_{vis_idx}":
-                        wandb.plot.histogram(make_table(d), "density", title=f"Density Distribution_{vis_idx}")})
-                    wandb_logger.log({f"inf{rot}/pred_hist_{vis_idx}":
-                        wandb.plot.histogram(make_table(p), "density", title=f"Prediction Distribution_{vis_idx}")})
-                    wandb_logger.log({f"inf{rot}/diff_hist_{vis_idx}":
-                        wandb.plot.histogram(make_table(d-p), "density", title=f"Difference Distribution_{vis_idx}")})
+                    make_table = lambda x: wandb.Table(
+                        columns=["density"], data=[[pt] for pt in x.flatten().cpu()]
+                    )
+
+                    wandb_logger.log(
+                        {
+                            f"inf{rot}/density_hist_{vis_idx}": wandb.plot.histogram(
+                                make_table(d),
+                                "density",
+                                title=f"Density Distribution_{vis_idx}",
+                            )
+                        }
+                    )
+                    wandb_logger.log(
+                        {
+                            f"inf{rot}/pred_hist_{vis_idx}": wandb.plot.histogram(
+                                make_table(p),
+                                "density",
+                                title=f"Prediction Distribution_{vis_idx}",
+                            )
+                        }
+                    )
+                    wandb_logger.log(
+                        {
+                            f"inf{rot}/diff_hist_{vis_idx}": wandb.plot.histogram(
+                                make_table(d - p),
+                                "density",
+                                title=f"Difference Distribution_{vis_idx}",
+                            )
+                        }
+                    )
 
                     if "scalar_field" in logs:
-                        wandb_logger.log({f"inf{rot}/scalar_field_hist_{vis_idx}":
-                            wandb.plot.histogram(make_table(scalar_field), "density", title=f"Scalar Field Distribution_{vis_idx}")})
+                        wandb_logger.log(
+                            {
+                                f"inf{rot}/scalar_field_hist_{vis_idx}": wandb.plot.histogram(
+                                    make_table(scalar_field),
+                                    "density",
+                                    title=f"Scalar Field Distribution_{vis_idx}",
+                                )
+                            }
+                        )
 
                     if "coefficient_field" in logs:
-                        wandb_logger.log({f"inf{rot}/coeff_field_hist_{vis_idx}":
-                            wandb.plot.histogram(make_table(coeff_field), "density", title=f"Coefficient Field Distribution_{vis_idx}")})
+                        wandb_logger.log(
+                            {
+                                f"inf{rot}/coeff_field_hist_{vis_idx}": wandb.plot.histogram(
+                                    make_table(coeff_field),
+                                    "density",
+                                    title=f"Coefficient Field Distribution_{vis_idx}",
+                                )
+                            }
+                        )
 
         loss = loss.mean()
         mae = mae.mean()
@@ -185,9 +232,9 @@ class InfGCN_interface(BaseModule):
         log_probe = False
 
         if grid_batch_size is None:
-            results = self(g.x, g.pos, grid_coord, g.batch, infos) 
+            results = self(g.x, g.pos, grid_coord, g.batch, infos)
             preds = results["density"]
-            probes = [[] for _ in range(g.batch.max().item()+1)]
+            probes = [[] for _ in range(g.batch.max().item() + 1)]
             if "scalar_field" in results:
                 log_scalar_field = True
                 scalar_fields = results["scalar_field"]
@@ -201,7 +248,7 @@ class InfGCN_interface(BaseModule):
             if "probe" in results:
                 log_probe = True
                 for b in range(grid.size(0)):
-                    probe = (results["probe"][b]).reshape(-1,3)
+                    probe = (results["probe"][b]).reshape(-1, 3)
                     probes[b] = probe
         else:
             preds = []
@@ -210,13 +257,13 @@ class InfGCN_interface(BaseModule):
             density_hist = []
             coeff_field_hist = []
             scalar_field_hist = []
-            probes = [[] for _ in range(g.batch.max().item()+1)]
+            probes = [[] for _ in range(g.batch.max().item() + 1)]
             for grid in grid_coord.split(grid_batch_size, dim=1):
                 results = self(g.x, g.pos, grid.contiguous(), g.batch, infos)
                 pred = results["density"]
                 preds.append(pred)
                 if "scalar_field" in results:
-                    log_scalar_field=True
+                    log_scalar_field = True
                     scalar_field = results["scalar_field"]
                     scalar_fields.append(scalar_field)
                 # if "coefficient_field" in results:
@@ -230,7 +277,7 @@ class InfGCN_interface(BaseModule):
                 if "probe" in results:
                     log_probe = True
                     for b in range(grid.size(0)):
-                        probe = (results["probe"][b]).reshape(-1,3)
+                        probe = (results["probe"][b]).reshape(-1, 3)
                         probes[b].append(probe)
             preds = torch.cat(preds, dim=1)
             if log_scalar_field:
@@ -248,7 +295,7 @@ class InfGCN_interface(BaseModule):
             scalar_fields = scalar_fields * mask
         if log_coeff:
             coeff_fields = coeff_fields * mask
-            
+
         diff = torch.abs(preds - density)
         sum_idx = tuple(range(1, density.dim()))
         loss = diff.pow(2).sum(sum_idx) / mask.sum(sum_idx)
@@ -267,18 +314,10 @@ class InfGCN_interface(BaseModule):
         g, densities, grid_coord, infos = batch
         batch_size = grid_coord.size(0)
 
-        # pred = self(g.x, g.pos, grid_coord, g.batch, infos)
         pred, loss, mae, logs = self.inference_batch(
             g, densities, grid_coord, infos, grid_batch_size=inf_samples
         )
 
-        # self.log_dict(
-        #     {"pred/loss": loss, "pred/mae": mae},
-        #     on_step=False,
-        #     on_epoch=True,
-        #     prog_bar=True,
-        #     batch_size=batch_size,
-        # )
         res = {
             "density": densities,
             "pred": pred,

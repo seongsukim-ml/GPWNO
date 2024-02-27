@@ -6,8 +6,8 @@ from e3nn import o3
 from e3nn.math import soft_one_hot_linspace
 from e3nn.nn import FullyConnectedNet, Extract, Activation
 
-from .orbital import GaussianOrbital
-from .envelop import Envelope
+from source.models.orbital import GaussianOrbital
+from source.models.interface import interface
 
 
 class ScalarActivation(nn.Module):
@@ -105,6 +105,8 @@ class GCNLayer(nn.Module):
         use_sc=True,
         irrep_normalization="component",
         path_normalization="element",
+        *args,
+        **kwargs,
     ):
         r"""
         A single InfGCN layer for Tensor Product-based message passing.
@@ -204,7 +206,7 @@ def pbc_vec(vec, cell):
     return pbc_vec.detach()
 
 
-class InfGCN(nn.Module):
+class InfGCN(interface):
     def __init__(
         self,
         n_atom_type,
@@ -222,7 +224,7 @@ class InfGCN(nn.Module):
         activation="norm",
         residual=True,
         pbc=False,
-        exponent=5,
+        *args,
         **kwargs,
     ):
         """
@@ -244,7 +246,7 @@ class InfGCN(nn.Module):
         :param residual: whether to use the residue prediction layer
         :param pbc: whether the data satisfy the periodic boundary condition
         """
-        super(InfGCN, self).__init__()
+        super(InfGCN, self).__init__(*args, **kwargs)
         self.n_atom_type = n_atom_type
         self.num_radial = num_radial
         self.num_spherical = num_spherical
@@ -260,8 +262,6 @@ class InfGCN(nn.Module):
         self.activation = activation
         self.residual = residual
         self.pbc = pbc
-
-        self.exponent = exponent
 
         assert activation in ["scalar", "norm"]
 
@@ -305,8 +305,6 @@ class InfGCN(nn.Module):
         self.orbital = GaussianOrbital(
             gauss_start, gauss_end, num_radial, num_spherical
         )
-
-        self.env = Envelope(self.exponent)
 
     def forward(self, atom_types, atom_coord, grid, batch, infos):
         """
@@ -388,12 +386,7 @@ class InfGCN(nn.Module):
         sample_vec = grid[batch] - atom_coord.unsqueeze(-2)
         if self.pbc:
             sample_vec = pbc_vec(sample_vec, cell[batch])
-        # import pdb
-
-        # pdb.set_trace()
-        orbital = self.orbital(sample_vec) * self.env(
-            sample_vec.norm(dim=2, keepdim=True)
-        )
+        orbital = self.orbital(sample_vec)
         density = (orbital * feat.unsqueeze(1)).sum(dim=-1)
         density = scatter(density, batch, dim=0, reduce="sum")
         if self.residual:

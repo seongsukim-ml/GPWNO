@@ -3,18 +3,9 @@ train_max_iter: 10000 # step
 early_stopping_patience: 1000
 
 num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug
-pin_memory: True
+pin_memory: False
 batch_size: 32
 lattice: mixed
-
-# triclinic 83
-# monoclinic 86
-# orthorhombic 84
-# tetragonal 85
-# trigonal 84
-# hexagonal 87
-# cubic 88
-# mixed 86
 
 pdir: /home/holywater2/crystal
 

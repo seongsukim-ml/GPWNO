@@ -32,10 +32,12 @@ class charge3net(BaseModule):
         basis="gaussian",
         num_basis=10,
         spin=False,
+        criterion=nn.MSELoss(),
         **kwargs,
     ):
         super().__init__()
         self.spin = spin
+        self.criterion = criterion
 
         self.atom_model = E3AtomRepresentationModel(
             num_interactions,
@@ -56,7 +58,7 @@ class charge3net(BaseModule):
             cutoff=cutoff,
             basis=basis,
             num_basis=num_basis,
-            spin=spin
+            spin=spin,
         )
 
     def forward(self, input_dict):
@@ -64,7 +66,7 @@ class charge3net(BaseModule):
         # if spin == False, (n_batch, n_probe). if spin == True, (n_batch, n_probe, 2)
         # allow it to output spin density of up/down electrons separately
         # TODO: is it better to train on spin up/down density, or charge density + spin density (like in CHGCAR)?
-        probe_result = self.probe_model(input_dict, atom_representation)   
+        probe_result = self.probe_model(input_dict, atom_representation)
         if self.spin:
             spin_up, spin_down = probe_result[:, :, 0], probe_result[:, :, 1]
             probe_result[:, :, 0] = spin_up + spin_down
@@ -76,10 +78,11 @@ class charge3net(BaseModule):
         result = self(batch)
         pred = result
         densities = batch["probe_target"]
-        loss = nn.MSELoss()(pred, densities)
+        loss = self.criterion(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"train/loss": loss, "train/mae": mae},
+            {"train/loss": loss, "train/mae": mae, "train/mae_abs": mae_abs},
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -94,10 +97,15 @@ class charge3net(BaseModule):
         result = self(batch)
         pred = result
         densities = batch["probe_target"]
-        loss = nn.MSELoss()(pred, densities)
+        loss = self.criterion(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"val/loss": loss, "val/mae": mae},
+            {
+                "val/loss": loss,
+                "val/mae": mae,
+                "val/mae_abs": mae_abs,
+            },
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -122,6 +130,9 @@ class charge3net(BaseModule):
             batch, 4096, self.cutoff, set_pbc_to=False
         )
         mae = torch.abs(pred_density.detach() - densities).sum() / densities.sum()
+        mae_abs = (
+            torch.abs(pred_density.detach() - densities).sum() / abs(densities).sum()
+        )
 
         self.log_dict(
             {
@@ -129,6 +140,7 @@ class charge3net(BaseModule):
                 f"test{rot}/dft_mae": mae_dft,
                 f"test{rot}/dft_error": error,
                 f"test{rot}/mae": mae,
+                f"test{rot}/mae_abs": mae_abs,
             },
             batch_size=batch_size,
         )

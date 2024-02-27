@@ -105,8 +105,9 @@ class deepDFT(BaseModule):
         densities = batch["probe_target"]
         loss = nn.MSELoss()(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"train/loss": loss, "train/mae": mae},
+            {"train/loss": loss, "train/mae": mae, "train/mae_abs": mae_abs},
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -123,8 +124,9 @@ class deepDFT(BaseModule):
         densities = batch["probe_target"]
         loss = nn.MSELoss()(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"val/loss": loss, "val/mae": mae},
+            {"val/loss": loss, "val/mae": mae, "val/mae_abs": mae_abs},
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -149,6 +151,9 @@ class deepDFT(BaseModule):
             batch, 4096, self.cutoff, set_pbc_to=False
         )
         mae = torch.abs(pred_density.detach() - densities).sum() / densities.sum()
+        mae_abs = (
+            torch.abs(pred_density.detach() - densities).sum() / abs(densities).sum()
+        )
 
         self.log_dict(
             {
@@ -156,6 +161,7 @@ class deepDFT(BaseModule):
                 f"test{rot}/dft_mae": mae_dft,
                 f"test{rot}/dft_error": error,
                 f"test{rot}/mae": mae,
+                f"test{rot}/mae_abs": mae_abs,
             },
             batch_size=batch_size,
         )

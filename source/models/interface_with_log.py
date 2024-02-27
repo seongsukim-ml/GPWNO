@@ -13,6 +13,7 @@ import numpy as np
 class interface(BaseModule):
     def __init__(
         self,
+        criterion=nn.MSELoss(),
         *args,
         **kwargs,
     ):
@@ -20,6 +21,7 @@ class interface(BaseModule):
         super().__init__(*args, **kwargs)
         self.no_log = ["scalar_field", "coefficient_field", "probe"]
         self.draw_hist = False
+        self.criterion = criterion
 
     def forward(self, atom_types, atom_coord, grid, batch, infos):
         """
@@ -38,10 +40,11 @@ class interface(BaseModule):
         batch_size = grid_coord.size(0)
         result_dict = self(g.x, g.pos, grid_coord, g.batch, infos)
         pred = result_dict["density"]
-        loss = nn.MSELoss()(pred, densities)
+        loss = self.criterion(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"train/loss": loss, "train/mae": mae},
+            {"train/loss": loss, "train/mae": mae, "train/mae_abs": mae_abs},
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -65,10 +68,11 @@ class interface(BaseModule):
         batch_size = grid_coord.size(0)
         result_dict = self(g.x, g.pos, grid_coord, g.batch, infos)
         pred = result_dict["density"]
-        loss = nn.MSELoss()(pred, densities)
+        loss = self.criterion(pred, densities)
         mae = torch.abs(pred.detach() - densities).sum() / densities.sum()
+        mae_abs = torch.abs(pred.detach() - densities).sum() / abs(densities).sum()
         self.log_dict(
-            {"val/loss": loss, "val/mae": mae},
+            {"val/loss": loss, "val/mae": mae, "val/mae_abs": mae_abs},
             on_step=True,
             on_epoch=True,
             prog_bar=True,
@@ -99,7 +103,7 @@ class interface(BaseModule):
         batch_size = grid_coord.size(0)
 
         # pred = self(g.x, g.pos, grid_coord, g.batch, infos)
-        pred, loss, mae, logs = self.inference_batch(
+        pred, loss, mae, mae_abs, logs = self.inference_batch(
             g, densities, grid_coord, infos, grid_batch_size=inf_samples
         )
 
@@ -213,11 +217,13 @@ class interface(BaseModule):
 
         loss = loss.mean()
         mae = mae.mean()
+        mae_abs = mae_abs.mean()
 
         self.log_dict(
             {
                 f"test{rot}/loss": loss,
                 f"test{rot}/mae": mae,
+                f"test{rot}/mae_abs": mae_abs,
             },
             on_step=True,
             prog_bar=True,
@@ -300,6 +306,8 @@ class interface(BaseModule):
         sum_idx = tuple(range(1, density.dim()))
         loss = diff.pow(2).sum(sum_idx) / mask.sum(sum_idx)
         mae = diff.sum(sum_idx) / density.sum(sum_idx)
+        mae_abs = diff.sum(sum_idx) / abs(density).sum(sum_idx)
+
         logs = {}
         if log_scalar_field:
             logs["scalar_field"] = scalar_fields
@@ -308,13 +316,13 @@ class interface(BaseModule):
         if log_probe:
             logs["probe"] = probes
 
-        return preds, loss, mae, logs
+        return preds, loss, mae, mae_abs, logs
 
     def predict_step(self, batch, batch_idx, dataloader_idx=None, inf_samples=4096):
         g, densities, grid_coord, infos = batch
         batch_size = grid_coord.size(0)
 
-        pred, loss, mae, logs = self.inference_batch(
+        pred, loss, mae, mae_abs, logs = self.inference_batch(
             g, densities, grid_coord, infos, grid_batch_size=inf_samples
         )
 
@@ -326,6 +334,7 @@ class interface(BaseModule):
             "grid_coord": grid_coord,
             "loss": loss,
             "mae": mae,
+            "mae_abs": mae_abs,
             "cell": [info["cell"] for info in infos],
         }
         if "scalar_field" in logs:

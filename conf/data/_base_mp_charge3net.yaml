@@ -2,7 +2,7 @@
 train_max_iter: 100000 # step
 early_stopping_patience: 1000
 
-num_workers: 32 # Should be 0 or it takes too much time / Stupid Lightning bug
+num_workers: 8 # Should be 0 or it takes too much time / Stupid Lightning bug
 pin_memory: False
 batch_size: 16
 lattice: mixed
@@ -21,10 +21,10 @@ datamodule:
   graph_constructor:
     _target_: source.datasets.charge3net.graph_construction.KdTreeGraphConstructor
     _partial_: True
-    cutoff: 4.0
+    cutoff: 3.0
     disable_pbc: False  
-  train_probes: 256
-  val_probes: 256
+  train_probes: 200
+  val_probes: 400
   batch_size: ${data.batch_size}
   train_workers: ${data.num_workers}
   val_workers: ${data.num_workers} # test_workers use the same value

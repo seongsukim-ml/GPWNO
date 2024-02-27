@@ -17,7 +17,7 @@ n_atom_type: 88
 # cubic 88
 # mixed 86
 
-pdir: /home/holywater2/crystal
+pdir: ${pdir}
 
 root: ${data.pdir}/dataset_mp
 split_file: ${data.pdir}/GPWNO/data_splits/mp_splits/mp_${data.lattice}_split.json

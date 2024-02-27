@@ -2,6 +2,8 @@ expname: ${model.name}_${data.mol_name}_${postfix}
 postfix: ""
 project: GPWNO_MD
 
+pdir: /home/holywater2/crystal
+
 # metadata specialised for each experiment
 core:
   version: 0.0.1

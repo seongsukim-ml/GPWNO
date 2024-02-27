@@ -8,7 +8,7 @@ batch_size: 32
 
 n_atom_type: 5
 
-pdir: /home/holywater2/crystal
+pdir: ${pdir}
 
 type: small_density
 root: ${data.pdir}/dataset

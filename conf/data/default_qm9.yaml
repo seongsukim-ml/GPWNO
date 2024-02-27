@@ -8,7 +8,7 @@ batch_size: 32
 
 n_atom_type: 5
 
-pdir: /home/holywater2/crystal
+pdir: ${pdir}
 
 root: ${data.pdir}/dataset_qm9
 # split_file: cubic_data_split_fix.json

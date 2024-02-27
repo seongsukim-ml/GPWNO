@@ -7,7 +7,7 @@ pin_memory: True
 batch_size: 32
 n_atom_type: 84
 
-pdir: /home/holywater2/crystal
+pdir: ${pdir}
 
 root: ${data.pdir}/dataset_pbc/datas_filtered
 split_file: cubic_data_split_fix.json

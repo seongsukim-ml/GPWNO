@@ -214,6 +214,7 @@ class GPWNO(interface):
         self.atomic_gauss_dist = atomic_gauss_dist
         self.input_dist = input_dist
         self.atom_info = atom_info
+        self.fourier_mode = fourier_mode
 
         self.num_spherical_RNO = num_spherical_RNO
         if model_sharing == True or num_spherical_RNO is None:

@@ -156,6 +156,7 @@ class GPWNO(interface):
         atomic_gauss_dist=True,
         input_dist=True,
         atom_info=None,
+        fourier_mode=0,
         *args,
         **kwargs,
     ):
@@ -301,7 +302,7 @@ class GPWNO(interface):
         )
         self.act_probe = NormActivation(f"{num_fourier_time}x0e")
 
-        self.mode = self.num_fourier // 2
+        self.mode = (self.num_fourier // 2) if self.fourier_mode == 0 else self.fourier_mode
         self.width = width
         if self.input_infgcn:
             self.num_fourier_time += 1
@@ -310,7 +311,7 @@ class GPWNO(interface):
         if self.atomic_gauss_dist:
             self.num_fourier_time += 10
 
-        self.FNO = PWNO(
+        self.PWNO = PWNO(
             modes1=self.mode,
             modes2=self.mode,
             modes3=self.mode,
@@ -757,7 +758,7 @@ class GPWNO(interface):
             probe_feat = torch.cat([probe_feat, atomic_dist_probe], dim=-1)
 
         fourier_grid = self.get_grid(probe_feat.shape, probe_feat.device)
-        probe_feat = self.FNO(probe_feat, fourier_grid)
+        probe_feat = self.PWNO(probe_feat, fourier_grid)
         probe_feat = probe_feat.reshape(-1, probe_feat.size(-1))
 
         # sample node

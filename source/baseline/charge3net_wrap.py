@@ -39,7 +39,7 @@ class charge3net(BaseModule):
         self.spin = spin
         self.criterion = criterion
 
-        self.atom_model = E3AtomRepresentationModel(
+        self.atom_model = E3AtomRepresentationModel(    
             num_interactions,
             num_neighbors,
             mul=mul,

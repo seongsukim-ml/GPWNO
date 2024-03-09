@@ -1,4 +1,4 @@
-name: GPWNO_mk-${model.scalar_mask}_co${model.cutoff}_pc${model.probe_cutoff}_gc${model.grid_cutoff}_f${model.num_fourier}_t${model.num_fourier_time}_w${model.width}_sp${model.num_spherical}_spf${model.num_spherical_RNO}_inp-${model.input_infgcn}_sha-${model.model_sharing}_max-${model.use_max_cell}_res-${model.residual}_mc${model.mask_cutoff}_ff-${model.using_ff}
+name: GPWNO_mk-${model.scalar_mask}_co${model.cutoff}_pc${model.probe_cutoff}_gc${model.grid_cutoff}_f${model.num_fourier}_fm${model.fourier_mode}_t${model.num_fourier_time}_w${model.width}_sp${model.num_spherical}_spf${model.num_spherical_RNO}_inp-${model.input_infgcn}_sha-${model.model_sharing}_max-${model.use_max_cell}_res-${model.residual}_mc${model.mask_cutoff}_ff-${model.using_ff}
 _target_: source.models.GPWNO.GPWNO
 
 n_atom_type: ${data.n_atom_type}
@@ -19,6 +19,7 @@ activation: "norm"
 num_fourier: 40
 num_fourier_time: 12
 width: 16
+fourier_mode: 0 # 0 -> (num_fourier // 2) else fourier_mode 
 
 padding: 4
 use_max_cell: true

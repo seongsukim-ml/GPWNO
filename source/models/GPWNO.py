@@ -303,7 +303,9 @@ class GPWNO(interface):
         )
         self.act_probe = NormActivation(f"{num_fourier_time}x0e")
 
-        self.mode = (self.num_fourier // 2) if self.fourier_mode == 0 else self.fourier_mode
+        self.mode = (
+            (self.num_fourier // 2) if self.fourier_mode == 0 else self.fourier_mode
+        )
         self.width = width
         if self.input_infgcn:
             self.num_fourier_time += 1
@@ -430,8 +432,12 @@ class GPWNO(interface):
             bins_idx = torch.arange(len(bins_lin))
             bins_idx[-1] = 0
 
+            # super_bins_idx = torch.cat(
+            #     [bins_idx[1:half], bins_idx, bins_idx[half:-1]]
+            # ).to(batch.device)
+
             super_bins_idx = torch.cat(
-                [bins_idx[1:half], bins_idx, bins_idx[half:-1]]
+                [bins_idx[half:-1], bins_idx, bins_idx[1:half]]
             ).to(batch.device)
 
             smart_idx = (

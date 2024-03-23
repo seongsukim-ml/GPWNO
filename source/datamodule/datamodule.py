@@ -16,7 +16,13 @@ class CrystalDatamodule(pl.LightningDataModule):
         num_workers: DictConfig,
         batch_size: DictConfig,
         collate_fn: DictConfig,
+        temp_folder: str = "temp",
+        probe_cutoff: float = 0.0,
+        num_fourier: int = 0,
+        use_max_cell: bool = False,
+        equivariant_frame: bool = False,
         rotate: bool = False,
+        model_pbc: bool = False,
         pin_memory: bool = True,
         *args,
         **kwargs
@@ -29,19 +35,59 @@ class CrystalDatamodule(pl.LightningDataModule):
         self.collate_fn = collate_fn
         self.rotate = rotate
 
+        self.temp_folder = temp_folder
+        self.num_fourier = num_fourier
+        self.use_max_cell = use_max_cell
+        self.equivariant_frame = equivariant_frame
+        self.probe_cutoff = probe_cutoff
+        self.model_pbc = model_pbc
+
     def prepare_data(self):
         pass
 
     def setup(self, stage: str = None):
         # Assign train/val datasets for use in dataloaders
         if stage is None or stage == "fit":
-            self.dataset_train = instantiate(self.datasets.train)
-            self.dataset_val = instantiate(self.datasets.val)
+            self.dataset_train = instantiate(
+                self.datasets.train,
+                temp_folder=self.temp_folder,
+                num_fourier=self.num_fourier,
+                use_max_cell=self.use_max_cell,
+                equivariant_frame=self.equivariant_frame,
+                probe_cutoff=self.probe_cutoff,
+                model_pbc=self.model_pbc,
+            )
+            self.dataset_val = instantiate(
+                self.datasets.val,
+                temp_folder=self.temp_folder,
+                num_fourier=self.num_fourier,
+                use_max_cell=self.use_max_cell,
+                equivariant_frame=self.equivariant_frame,
+                probe_cutoff=self.probe_cutoff,
+                model_pbc=self.model_pbc,
+            )
         # Assign test dataset for use in dataloader(s)
         if stage is None or stage == "test":
-            self.dataset_test = instantiate(self.datasets.test)
+            self.dataset_test = instantiate(
+                self.datasets.test,
+                temp_folder=self.temp_folder,
+                num_fourier=self.num_fourier,
+                use_max_cell=self.use_max_cell,
+                equivariant_frame=self.equivariant_frame,
+                probe_cutoff=self.probe_cutoff,
+                model_pbc=self.model_pbc,
+            )
             if self.rotate:
-                self.dataset_rotate = instantiate(self.datasets.test, rotate=True)
+                self.dataset_rotate = instantiate(
+                    self.datasets.test,
+                    rotate=True,
+                    temp_folder=self.temp_folder,
+                    num_fourier=self.num_fourier,
+                    use_max_cell=self.use_max_cell,
+                    equivariant_frame=self.equivariant_frame,
+                    probe_cutoff=self.probe_cutoff,
+                    model_pbc=self.model_pbc,
+                )
 
     def train_dataloader(self):
         train_col = instantiate(

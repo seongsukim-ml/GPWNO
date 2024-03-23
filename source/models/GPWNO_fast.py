@@ -365,11 +365,69 @@ class GPWNO(interface):
         feat = self.embedding(atom_types)
         n_graph, n_sample = grid.size(0), grid.size(1)
 
+        probe_len = infos[0]["probe"].reshape(-1, 3).size(0)
+        probe = torch.cat([info["probe"] for info in infos], dim=0).to(batch.device)
+        probe_flat = probe.reshape(-1, 3)
+        probe_batch = torch.arange(grid.size(0), device=grid.device).repeat_interleave(
+            probe_len
+        )
+
+        probe_edge = torch.cat([info["probe_edge"] for info in infos], dim=0).to(
+            batch.device
+        )
+        probe_dst = torch.cat([info["probe_dst"] for info in infos], dim=0).to(
+            batch.device
+        )
+        probe_src = torch.cat([info["probe_src"] for info in infos], dim=0).to(
+            batch.device
+        )
+
+        probe_pad = []
+        atom_pad = []
+        probe_pad_num = 0
+        atom_pad_num = 0
+        for i in range(grid.size(0)):
+            probe_src_num = infos[i]["probe_src"].size(0)
+            pad = torch.zeros(probe_src_num).to(batch.device) + probe_pad_num
+            probe_pad.append(pad)
+            probe_pad_num += probe_len
+
+            atom_num = batch[batch == i].size(0)
+            pad = torch.zeros(probe_src_num).to(batch.device) + atom_pad_num
+            atom_pad.append(pad)
+            atom_pad_num += atom_num
+        probe_dst = probe_dst + torch.cat(probe_pad, dim=0).long()
+        probe_src = probe_src + torch.cat(atom_pad, dim=0).long()
+
+        if self.pbc:
+            super_probe_len = infos[0]["super_probe"].reshape(-1, 3).size(0)
+            super_probe = torch.cat([info["super_probe"] for info in infos], dim=0).to(
+                batch.device
+            )
+            super_probe_flat = super_probe.reshape(-1, 3)
+            super_probe_batch = torch.arange(
+                grid.size(0), device=grid.device
+            ).repeat_interleave(super_probe_len)
+            super_probe_idx = torch.cat(
+                [info["super_probe_idx"] for info in infos], dim=0
+            ).to(batch.device)
+            super_probe_idx_batch = torch.arange(
+                grid.size(0), device=grid.device
+            ).repeat_interleave(
+                len(super_probe_idx)
+            ) * probe_len + super_probe_idx.repeat(
+                grid.size(0)
+            )
+
         # normalize the atom coordinates
         if self.use_max_cell and self.equivariant_frame:
             atom_center = scatter(atom_coord, batch, dim=0, reduce="mean")
             atom_coord = atom_coord - atom_center[batch]
             grid -= atom_center.unsqueeze(1)
+
+        probe_log = probe.cpu()
+        if self.use_max_cell and self.equivariant_frame:
+            probe_log += atom_center.reshape(-1, 1, 1, 1, 3).cpu()
 
         # GCN input
         edge_index = radius_graph(atom_coord, self.cutoff, batch, loop=False)
@@ -419,113 +477,6 @@ class GPWNO(interface):
             if i != self.num_gcn_layer - 1:
                 feat = self.act_RNO(feat)
 
-        # Probe node bin
-        bins_lin = torch.linspace(0, 1, self.num_fourier).to(batch.device)
-        if self.pbc:
-            half = len(bins_lin) // 2
-            super_bins = torch.cat(
-                [bins_lin[half:-1] - 1, bins_lin, bins_lin[1:half] + 1]
-            ).to(batch.device)
-            super_bins = torch.meshgrid(super_bins, super_bins, super_bins)
-            super_probe = torch.stack(super_bins, dim=-1).to(batch.device)
-
-            bins_idx = torch.arange(len(bins_lin))
-            bins_idx[-1] = 0
-
-            # super_bins_idx = torch.cat(
-            #     [bins_idx[1:half], bins_idx, bins_idx[half:-1]]
-            # ).to(batch.device)
-
-            super_bins_idx = torch.cat(
-                [bins_idx[half:-1], bins_idx, bins_idx[1:half]]
-            ).to(batch.device)
-
-            smart_idx = (
-                torch.arange((len(bins_idx) - 1) ** 3)
-                .reshape(len(bins_idx) - 1, len(bins_idx) - 1, len(bins_idx) - 1)
-                .to(batch.device)
-            )
-            super_probe_idx_help = torch.stack(
-                torch.meshgrid(super_bins_idx, super_bins_idx, super_bins_idx), dim=-1
-            ).reshape(-1, 3)
-            super_probe_idx = smart_idx[
-                super_probe_idx_help[:, 0],
-                super_probe_idx_help[:, 1],
-                super_probe_idx_help[:, 2],
-            ].reshape(-1)
-            del super_probe_idx_help
-
-        if self.use_max_cell and self.equivariant_frame:
-            bins_lin -= 0.5
-        bins = torch.meshgrid(bins_lin, bins_lin, bins_lin)
-
-        # Spreading probe node
-        probe = torch.stack(bins, dim=-1).to(batch.device)
-
-        cell_inp = cell
-        if self.use_max_cell:
-            if self.max_cell_size is None:
-                self.max_cell_size = 20
-
-            if self.equivariant_frame:
-                num_batch = grid.size(0)
-                new_cell = []
-                for i in range(num_batch):
-                    atom_bat = atom_coord[batch == i]
-                    atoms_centered = atom_bat - atom_bat.mean(dim=0)
-                    R = torch.matmul(atoms_centered.t(), atoms_centered)
-                    _, vec = torch.linalg.eigh(R)
-                    vec /= torch.linalg.norm(
-                        vec, dim=0
-                    )  # orthogonal frame / equivariant
-                    new_cell.append(vec)
-                new_cell = torch.stack(new_cell, dim=0)
-                max_cell = new_cell * self.max_cell_size
-            else:
-                max_cell_tensor = np.eyes(3) * self.max_cell_size
-                max_cell = torch.FloatTensor(self.max_cell_size).to(batch.device)
-                max_cell = max_cell.unsqueeze(0).repeat(grid.size(0), 1, 1)
-            cell_inp = max_cell
-
-        probe = torch.einsum("ijkl,blm->bijkm", probe, cell_inp).detach()  # (N,f,f,f,3)
-        probe_log = probe.cpu()
-        if self.use_max_cell and self.equivariant_frame:
-            probe_log += atom_center.reshape(-1, 1, 1, 1, 3).cpu()
-        probe_flat = probe.reshape(-1, 3)
-        probe_batch = torch.arange(grid.size(0), device=grid.device).repeat_interleave(
-            len(bins_lin) ** 3
-        )
-        if self.pbc:
-            super_probe = torch.einsum(
-                "ijkl,blm->bijkm", super_probe, cell_inp
-            ).detach()
-            super_probe_flat = super_probe.reshape(-1, 3)
-            super_probe_batch = torch.arange(
-                grid.size(0), device=grid.device
-            ).repeat_interleave(len(super_bins_idx) ** 3)
-            super_probe_idx_batch = torch.arange(
-                grid.size(0), device=grid.device
-            ).repeat_interleave(len(super_probe_idx)) * len(
-                bins_lin
-            ) ** 3 + super_probe_idx.repeat(
-                grid.size(0)
-            )
-
-        # Connect probe node to atom node
-
-        if self.pbc:
-            super_probe_dst, probe_src = radius(
-                atom_coord,
-                super_probe_flat,
-                self.probe_cutoff,
-                batch,
-                super_probe_batch,
-            )
-            probe_dst = super_probe_idx_batch[super_probe_dst]
-        else:
-            probe_dst, probe_src = radius(
-                atom_coord, probe_flat, self.probe_cutoff, batch, probe_batch
-            )  # probe_cutoff: (1 ~ 3), check connectivity
         avg_probe_degree = (
             probe_dst.size(0) / probe_flat.size(0) if probe_flat.size(0) != 0 else 0
         )
@@ -539,18 +490,6 @@ class GPWNO(interface):
             if probe_dst.unique().size(0) != 0
             else 0
         )
-
-        # Probe feature
-        if self.pbc:
-            probe_edge = super_probe_flat[super_probe_dst] - atom_coord[probe_src]
-        else:
-            probe_edge = probe_flat[probe_dst] - atom_coord[probe_src]
-
-        # if self.pbc:
-        #     for batch_idx in range(grid.size(0)):
-        #         probe_edge[probe_batch[probe_dst] == batch_idx] = pbc_vec(
-        #             probe_edge[probe_batch[probe_dst] == batch_idx], cell[batch_idx]
-        #         )[0]
 
         probe_len = torch.norm(probe_edge, dim=-1) + 1e-8
         probe_edge_feat = o3.spherical_harmonics(
@@ -775,9 +714,7 @@ class GPWNO(interface):
             .repeat_interleave(n_sample)
             .detach()
         )
-        # if self.probe_and_node:
-        #     probe_and_node = torch.cat([probe_flat, sample_flat], dim=0)
-        #     probe_and_node_batch = torch.cat([probe_batch, sample_batch], dim=0)
+
         probe_and_node = probe_flat
         probe_and_node_batch = probe_batch
 
@@ -819,11 +756,6 @@ class GPWNO(interface):
             )
         else:
             sample_edge = sample_flat[sample_dst] - probe_flat[probe_and_node_src]
-        # if self.pbc:
-        #     for batch_idx in range(grid.size(0)):
-        #         sample_edge[sample_batch[sample_dst] == batch_idx], frac = pbc_vec(
-        #             sample_edge[sample_batch[sample_dst] == batch_idx], cell[batch_idx]
-        #         )
         sample_len = torch.norm(sample_edge, dim=-1) + 1e-8
 
         sample_edge_feat = o3.spherical_harmonics(

@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import Dataset
 from torch_geometric.data import Data
 import numpy as np
+
 # 0 = C, 1 = H, 2 = O
 
 ATOM_TYPES = {

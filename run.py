@@ -17,6 +17,10 @@ from pytorch_lightning import seed_everything, Callback
 
 from source.common.utils import build_callbacks, log_hyperparameters, PROJECT_ROOT
 
+import warnings
+
+warnings.simplefilter("ignore", UserWarning)
+
 
 def run(cfg: DictConfig) -> None:
     """
@@ -44,7 +48,12 @@ def run(cfg: DictConfig) -> None:
     """ Instantiate datamodule """
     log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
     datamodule: pl.LightningDataModule = instantiate(
-        cfg.data.datamodule, _recursive_=False
+        cfg.data.datamodule,
+        _recursive_=False,
+        temp_folder=cfg.expname,
+        num_fourier=cfg.model.num_fourier,
+        use_max_cell=cfg.model.use_max_cell,
+        equivariant_frame=cfg.model.equivariant_frame,
     )
 
     """ Instantiate model """

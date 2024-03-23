@@ -105,3 +105,11 @@ CUDA_VISIBLE_DEVICES=2 python run.py -m \
     logging=draw
 
 # cubic, triclinic (cluster)
+
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc_fast \
+    data=mp_tetragonal_mesh \
+    postfix=ff \
+    data.num_workers=32 \
+    logging=draw

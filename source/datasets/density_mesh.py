@@ -183,8 +183,8 @@ class DensityDataset(Dataset):
             density = rotate_voxel(info["shape"], info["cell"], density, rotated_grid)
             info["rot"] = rot
 
-        mesh_save_file = os.path.join(self.mesh_temp_folder, f"{file_name}.pt")
         os.makedirs(self.mesh_temp_folder, exist_ok=True)
+        mesh_save_file = os.path.join(self.mesh_temp_folder, f"{file_name}.pt")
         if not os.path.exists(mesh_save_file):
             if self.model_pbc:
                 (
@@ -219,6 +219,7 @@ class DensityDataset(Dataset):
                     probe_src,
                     probe_edge,
                     super_probe,
+                    super_probe_dst,
                     super_probe_idx,
                 ) = torch.load(mesh_save_file)
 
@@ -232,6 +233,7 @@ class DensityDataset(Dataset):
         if self.model_pbc:
             info["super_probe"] = super_probe
             info["super_probe_idx"] = super_probe_idx
+            info["super_probe_dst"] = super_probe_dst
 
         return g, density, grid_coord, info
 
@@ -298,15 +300,11 @@ class DensityDataset(Dataset):
                 new_cell = torch.stack(new_cell, dim=0)
                 max_cell = new_cell * self.max_cell_size
             else:
-                max_cell_tensor = np.eyes(3) * self.max_cell_size
                 max_cell = torch.FloatTensor(self.max_cell_size).to(cell.device)
                 max_cell = max_cell.unsqueeze(0).repeat(num_batch, 1, 1)
             cell_inp = max_cell
 
         probe = torch.einsum("ijkl,blm->bijkm", probe, cell_inp).detach()  # (N,f,f,f,3)
-        probe_log = probe.cpu()
-        if self.use_max_cell and self.equivariant_frame:
-            probe_log += atom_center.reshape(-1, 1, 1, 1, 3).cpu()
         probe_flat = probe.reshape(-1, 3)
         probe_batch = torch.arange(num_batch, device=cell.device).repeat_interleave(
             len(bins_lin) ** 3
@@ -347,7 +345,15 @@ class DensityDataset(Dataset):
             probe_edge = probe_flat[probe_dst] - atom_coord[probe_src]
 
         if self.model_pbc:
-            return probe, probe_dst, probe_src, probe_edge, super_probe, super_probe_idx
+            return (
+                probe,
+                probe_dst,
+                probe_src,
+                probe_edge,
+                super_probe,
+                super_probe_dst,
+                super_probe_idx,
+            )
         else:
             return probe, probe_dst, probe_src, probe_edge
 

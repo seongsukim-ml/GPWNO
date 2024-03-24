@@ -372,9 +372,9 @@ class GPWNO(interface):
             probe_len
         )
 
-        probe_edge = torch.cat([info["probe_edge"] for info in infos], dim=0).to(
-            batch.device
-        )
+        # probe_edge = torch.cat([info["probe_edge"] for info in infos], dim=0).to(
+        #     batch.device
+        # )
         probe_dst = torch.cat([info["probe_dst"] for info in infos], dim=0).to(
             batch.device
         )
@@ -404,6 +404,11 @@ class GPWNO(interface):
             super_probe = torch.cat([info["super_probe"] for info in infos], dim=0).to(
                 batch.device
             )
+            
+            super_probe_dst = torch.cat([info["super_probe_dst"] for info in infos], dim=0).to(
+                batch.device
+            )
+            
             super_probe_flat = super_probe.reshape(-1, 3)
             super_probe_batch = torch.arange(
                 grid.size(0), device=grid.device
@@ -418,6 +423,11 @@ class GPWNO(interface):
             ) * probe_len + super_probe_idx.repeat(
                 grid.size(0)
             )
+
+        if self.pbc:
+            probe_edge = super_probe_flat[super_probe_dst] - atom_coord[probe_src]
+        else:
+            probe_edge = probe_flat[probe_dst] - atom_coord[probe_src]
 
         # normalize the atom coordinates
         if self.use_max_cell and self.equivariant_frame:

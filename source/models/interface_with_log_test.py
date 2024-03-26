@@ -38,6 +38,25 @@ class interface(BaseModule):
     def training_step(self, batch, batch_idx):
         g, densities, grid_coord, infos = batch
         batch_size = grid_coord.size(0)
+
+        # batch_dat = {
+        #     "atom_types": g.x,
+        #     "atom_coord": g.pos,
+        #     "grid": grid_coord,
+        #     "batch": g.batch,
+        #     "infos": infos,
+        #     "targets": densities,
+        # }
+        # import pickle
+
+        # with open(
+        #     "/home/holywater2/crystal/GPWNO/source/models/batch_data_for_test.pkl"
+        # ) as f:
+        #     pickle.dump(batch_dat, f)
+
+        # import pdb
+
+        # pdb.set_trace()
         result_dict = self(g.x, g.pos, grid_coord, g.batch, infos)
         pred = result_dict["density"]
         loss = self.criterion(pred, densities)
@@ -66,6 +85,18 @@ class interface(BaseModule):
     def validation_step(self, batch, batch_idx):
         g, densities, grid_coord, infos = batch
         batch_size = grid_coord.size(0)
+        import pickle
+
+        with open(
+            "/home/holywater2/crystal/GPWNO/my_scripts/kkkk.pkl",
+            mode="wb",
+        ) as f:
+            pickle.dump(batch, f)
+
+        import pdb
+
+        pdb.set_trace()
+
         result_dict = self(g.x, g.pos, grid_coord, g.batch, infos)
         pred = result_dict["density"]
         loss = self.criterion(pred, densities)

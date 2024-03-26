@@ -16,7 +16,7 @@ CUDA_VISIBLE_DEVICES=7 python run.py \
     train.random_seed=42 \
     postfix=tt \
     data.num_workers=32 \
-    logging=draw
+    logging=test
 
 CUDA_VISIBLE_DEVICES=6 python run.py -m \
     --config-name=mp \

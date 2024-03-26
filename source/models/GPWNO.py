@@ -153,8 +153,8 @@ class GPWNO(interface):
         scalar_inv=False,
         num_spherical_RNO=None,
         positive_output=False,
-        atomic_gauss_dist=True,
-        input_dist=True,
+        atomic_gauss_dist=False,
+        input_dist=False,
         atom_info=None,
         fourier_mode=0,
         *args,
@@ -512,7 +512,6 @@ class GPWNO(interface):
             )
 
         # Connect probe node to atom node
-
         if self.pbc:
             super_probe_dst, probe_src = radius(
                 atom_coord,

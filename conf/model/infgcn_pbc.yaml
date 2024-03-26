@@ -1,0 +1,18 @@
+name: infgcn_co${model.cutoff}_gc${model.grid_cutoff}sp${model.num_spherical}_gcns${model.num_gcn_layer}_res${model.residual}
+_target_: source.baseline.infgcn.InfGCN
+
+n_atom_type: ${data.n_atom_type}
+num_radial: 16
+num_spherical: 7
+radial_embed_size: 64
+radial_hidden_size: 128
+num_radial_layer: 2
+num_gcn_layer: 3
+cutoff: 5
+grid_cutoff: 5.
+is_fc: false
+gauss_start: 0.5
+gauss_end: 5.
+residual: false
+pbc: true
+activation: "norm"

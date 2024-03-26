@@ -50,5 +50,5 @@ output_positive: False
 
 atom_info : ${data.atom_file}
 
-model.input_dist: False
-model.atomic_gauss_dist: False
+input_dist: False
+atomic_gauss_dist: False

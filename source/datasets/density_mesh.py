@@ -193,6 +193,7 @@ class DensityDataset(Dataset):
                     probe_src,
                     probe_edge,
                     super_probe,
+                    super_probe_dst,
                     super_probe_idx,
                 ) = self.make_grid(g.pos, info["cell"])
                 torch.save(
@@ -202,6 +203,7 @@ class DensityDataset(Dataset):
                         probe_src,
                         probe_edge,
                         super_probe,
+                        super_probe_dst,
                         super_probe_idx,
                     ),
                     mesh_save_file,

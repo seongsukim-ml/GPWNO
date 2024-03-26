@@ -26,7 +26,7 @@ hydra:
 defaults:
   - data: default_qm9
   - logging: default
-  - model: infgcnQM9
+  - model: GPWNO_QM9
   - optim: default
   - train: default
 #    Decomment this parameter to get parallel job running

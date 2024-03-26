@@ -50,10 +50,6 @@ def run(cfg: DictConfig) -> None:
     datamodule: pl.LightningDataModule = instantiate(
         cfg.data.datamodule,
         _recursive_=False,
-        temp_folder=cfg.expname,
-        num_fourier=cfg.model.num_fourier,
-        use_max_cell=cfg.model.use_max_cell,
-        equivariant_frame=cfg.model.equivariant_frame,
     )
 
     """ Instantiate model """

@@ -24,7 +24,7 @@ fourier_mode: 0 # 0 -> (num_fourier // 2) else fourier_mode
 padding: 0
 use_max_cell: False
 max_cell_size: 324
-equivariant_frame: true
+equivariant_frame: false
 
 probe_cutoff: 1.5
 grid_cutoff: 0.75
@@ -49,5 +49,5 @@ output_positive: False
 
 atom_info : ${data.atom_file}
 
-model.input_dist: False
-model.atomic_gauss_dist: False
+input_dist: False
+atomic_gauss_dist: False

@@ -8,14 +8,14 @@ CUDA_VISIBLE_DEVICES=0 python run.py -m \
     model.num_fourier=50,20 \
     logging=draw
 
-CUDA_VISIBLE_DEVICES=4 python run.py -m \
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
     --config-name=md \
     model=GPWNO_MD \
     train.random_seed=42,1,2 \
-    postfix=rebuttal \
+    postfix=rep \
     data.num_workers=32 \
     data.mol_name=benzene \
-    model.num_fourier=30,40 \
+    model.num_fourier=30 \
     logging=draw
 
 CUDA_VISIBLE_DEVICES=0 python run.py -m \
@@ -28,12 +28,78 @@ CUDA_VISIBLE_DEVICES=0 python run.py -m \
     model.num_fourier=60
     logging=draw
 
-CUDA_VISIBLE_DEVICES=0 python run.py -m \
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
     --config-name=md \
     model=GPWNO_MD \
-    train.random_seed=3 \
+    train.random_seed=2 \
     postfix=rebuttal \
     data.num_workers=32 \
     data.mol_name=benzene \
     model.num_fourier=60
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    --config-name=md \
+    model=infgcn \
+    postfix=time \
+    train.random_seed=42,1,2 \
+    model.num_spherical=7 \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=5 python run.py -m \
+    --config-name=md \
+    model=GPWNO_MD \
+    train.random_seed=42,1,2 \
+    postfix=rebuttal \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    model.probe_cutoff=1.0,1.25,1.5,1.75 \
+    model.num_fourier=30 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m \
+    --config-name=md \
+    model=GPWNO_MD \
+    train.random_seed=42,1,2 \
+    postfix=rebuttal \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    model.probe_cutoff=1.0,1.25,1.5,1.75 \
+    model.num_fourier=30 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=4 python run.py -m \
+    --config-name=md \
+    model=GPWNO_MD \
+    train.random_seed=42,1,2 \
+    postfix=rebuttal \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    model.mask_cutoff=2.0,2.5,3.5 \
+    model.num_fourier=30 \
+    logging=draw
+
+
+CUDA_VISIBLE_DEVICES=2 python run.py -m \
+    --config-name=md \
+    model=GPWNO_MD \
+    train.random_seed=42,1,2 \
+    postfix=rebuttal \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    model.probe_cutoff=2.25 \
+    model.num_fourier=30 \
+    logging=draw
+
+CUDA_VISIBLE_DEVICES=1 python run.py -m \
+    --config-name=md \
+    model=GPWNO_MD \
+    train.random_seed=42,1,2 \
+    postfix=rebuttal \
+    data.num_workers=32 \
+    data.mol_name=benzene \
+    model.probe_cutoff=2.5 \
+    model.num_fourier=30 \
     logging=draw

@@ -26,7 +26,7 @@ hydra:
 defaults:
   - data: default_MD
   - logging: default
-  - model: infgcnMD
+  - model: GPWNO
   - optim: default
   - train: default
 #    Decomment this parameter to get parallel job running

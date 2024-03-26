@@ -13,7 +13,7 @@ from e3nn.nn import FullyConnectedNet, Extract, Activation
 
 from source.models.GPWNO_utils import *
 from source.models.PWNO_utils import *
-from source.models.interface_with_log import interface
+from source.models.interface_with_log_test import interface
 from source.models.orbital import GaussianOrbital
 
 
@@ -153,8 +153,8 @@ class GPWNO(interface):
         scalar_inv=False,
         num_spherical_RNO=None,
         positive_output=False,
-        atomic_gauss_dist=True,
-        input_dist=True,
+        atomic_gauss_dist=False,
+        input_dist=False,
         atom_info=None,
         fourier_mode=0,
         *args,
@@ -365,79 +365,11 @@ class GPWNO(interface):
         feat = self.embedding(atom_types)
         n_graph, n_sample = grid.size(0), grid.size(1)
 
-        probe_len = infos[0]["probe"].reshape(-1, 3).size(0)
-        probe = torch.cat([info["probe"] for info in infos], dim=0).to(batch.device)
-        probe_flat = probe.reshape(-1, 3)
-        probe_batch = torch.arange(grid.size(0), device=grid.device).repeat_interleave(
-            probe_len
-        )
-
-        # probe_edge = torch.cat([info["probe_edge"] for info in infos], dim=0).to(
-        #     batch.device
-        # )
-        probe_dst = torch.cat([info["probe_dst"] for info in infos], dim=0).to(
-            batch.device
-        )
-        probe_src = torch.cat([info["probe_src"] for info in infos], dim=0).to(
-            batch.device
-        )
-
-        probe_pad = []
-        atom_pad = []
-        probe_pad_num = 0
-        atom_pad_num = 0
-        for i in range(grid.size(0)):
-            probe_src_num = infos[i]["probe_src"].size(0)
-            pad = torch.zeros(probe_src_num).to(batch.device) + probe_pad_num
-            probe_pad.append(pad)
-            probe_pad_num += probe_len
-
-            atom_num = batch[batch == i].size(0)
-            pad = torch.zeros(probe_src_num).to(batch.device) + atom_pad_num
-            atom_pad.append(pad)
-            atom_pad_num += atom_num
-        probe_dst = probe_dst + torch.cat(probe_pad, dim=0).long()
-        probe_src = probe_src + torch.cat(atom_pad, dim=0).long()
-
-        if self.pbc:
-            super_probe_len = infos[0]["super_probe"].reshape(-1, 3).size(0)
-            super_probe = torch.cat([info["super_probe"] for info in infos], dim=0).to(
-                batch.device
-            )
-
-            super_probe_dst = torch.cat(
-                [info["super_probe_dst"] for info in infos], dim=0
-            ).to(batch.device)
-
-            super_probe_flat = super_probe.reshape(-1, 3)
-            super_probe_batch = torch.arange(
-                grid.size(0), device=grid.device
-            ).repeat_interleave(super_probe_len)
-            super_probe_idx = torch.cat(
-                [info["super_probe_idx"] for info in infos], dim=0
-            ).to(batch.device)
-            super_probe_idx_batch = torch.arange(
-                grid.size(0), device=grid.device
-            ).repeat_interleave(
-                len(super_probe_idx)
-            ) * probe_len + super_probe_idx.repeat(
-                grid.size(0)
-            )
-
-        if self.pbc:
-            probe_edge = super_probe_flat[super_probe_dst] - atom_coord[probe_src]
-        else:
-            probe_edge = probe_flat[probe_dst] - atom_coord[probe_src]
-
         # normalize the atom coordinates
         if self.use_max_cell and self.equivariant_frame:
             atom_center = scatter(atom_coord, batch, dim=0, reduce="mean")
             atom_coord = atom_coord - atom_center[batch]
             grid -= atom_center.unsqueeze(1)
-
-        probe_log = probe.cpu()
-        if self.use_max_cell and self.equivariant_frame:
-            probe_log += atom_center.reshape(-1, 1, 1, 1, 3).cpu()
 
         # GCN input
         edge_index = radius_graph(atom_coord, self.cutoff, batch, loop=False)
@@ -487,6 +419,120 @@ class GPWNO(interface):
             if i != self.num_gcn_layer - 1:
                 feat = self.act_RNO(feat)
 
+        # Probe node bin
+        bins_lin = torch.linspace(0, 1, self.num_fourier).to(batch.device)
+        if self.pbc:
+            half = len(bins_lin) // 2
+            super_bins = torch.cat(
+                [bins_lin[half:-1] - 1, bins_lin, bins_lin[1:half] + 1]
+            ).to(batch.device)
+            super_bins = torch.meshgrid(super_bins, super_bins, super_bins)
+            super_probe = torch.stack(super_bins, dim=-1).to(batch.device)
+
+            bins_idx = torch.arange(len(bins_lin))
+            bins_idx[-1] = 0
+
+            # super_bins_idx = torch.cat(
+            #     [bins_idx[1:half], bins_idx, bins_idx[half:-1]]
+            # ).to(batch.device)
+
+            super_bins_idx = torch.cat(
+                [bins_idx[half:-1], bins_idx, bins_idx[1:half]]
+            ).to(batch.device)
+
+            smart_idx = (
+                torch.arange((len(bins_idx) - 1) ** 3)
+                .reshape(len(bins_idx) - 1, len(bins_idx) - 1, len(bins_idx) - 1)
+                .to(batch.device)
+            )
+            super_probe_idx_help = torch.stack(
+                torch.meshgrid(super_bins_idx, super_bins_idx, super_bins_idx), dim=-1
+            ).reshape(-1, 3)
+            super_probe_idx = smart_idx[
+                super_probe_idx_help[:, 0],
+                super_probe_idx_help[:, 1],
+                super_probe_idx_help[:, 2],
+            ].reshape(-1)
+            del super_probe_idx_help
+
+        if self.use_max_cell and self.equivariant_frame:
+            bins_lin -= 0.5
+        bins = torch.meshgrid(bins_lin, bins_lin, bins_lin)
+
+        # Spreading probe node
+        probe = torch.stack(bins, dim=-1).to(batch.device)
+
+        cell_inp = cell
+        if self.use_max_cell:
+            if self.max_cell_size is None:
+                self.max_cell_size = 20
+
+            if self.equivariant_frame:
+                num_batch = grid.size(0)
+                new_cell = []
+                for i in range(num_batch):
+                    atom_bat = atom_coord[batch == i]
+                    atoms_centered = atom_bat - atom_bat.mean(dim=0)
+                    R = torch.matmul(atoms_centered.t(), atoms_centered)
+                    _, vec = torch.linalg.eigh(R)
+                    vec /= torch.linalg.norm(
+                        vec, dim=0
+                    )  # orthogonal frame / equivariant
+                    new_cell.append(vec)
+                new_cell = torch.stack(new_cell, dim=0)
+                max_cell = new_cell * self.max_cell_size
+            else:
+                max_cell_tensor = np.eyes(3) * self.max_cell_size
+                max_cell = torch.FloatTensor(self.max_cell_size).to(batch.device)
+                max_cell = max_cell.unsqueeze(0).repeat(grid.size(0), 1, 1)
+            cell_inp = max_cell
+
+        probe = torch.einsum("ijkl,blm->bijkm", probe, cell_inp).detach()  # (N,f,f,f,3)
+        probe_log = probe.cpu()
+        if self.use_max_cell and self.equivariant_frame:
+            probe_log += atom_center.reshape(-1, 1, 1, 1, 3).cpu()
+        probe_flat = probe.reshape(-1, 3)
+        probe_batch = torch.arange(grid.size(0), device=grid.device).repeat_interleave(
+            len(bins_lin) ** 3
+        )
+        if self.pbc:
+            super_probe = torch.einsum(
+                "ijkl,blm->bijkm", super_probe, cell_inp
+            ).detach()
+            super_probe_flat = super_probe.reshape(-1, 3)
+            super_probe_batch = torch.arange(
+                grid.size(0), device=grid.device
+            ).repeat_interleave(len(super_bins_idx) ** 3)
+            super_probe_idx_batch = torch.arange(
+                grid.size(0), device=grid.device
+            ).repeat_interleave(len(super_probe_idx)) * len(
+                bins_lin
+            ) ** 3 + super_probe_idx.repeat(
+                grid.size(0)
+            )
+
+        # Connect probe node to atom node
+        import time
+
+        st1 = time.time()
+        # import pdb
+
+        # pdb.set_trace()
+        if self.pbc:
+            super_probe_dst, probe_src = radius(
+                atom_coord,
+                super_probe_flat,
+                self.probe_cutoff,
+                batch,
+                super_probe_batch,
+            )
+            probe_dst = super_probe_idx_batch[super_probe_dst]
+        else:
+            probe_dst, probe_src = radius(
+                atom_coord, probe_flat, self.probe_cutoff, batch, probe_batch
+            )  # probe_cutoff: (1 ~ 3), check connectivity
+        st1 = time.time() - st1
+
         avg_probe_degree = (
             probe_dst.size(0) / probe_flat.size(0) if probe_flat.size(0) != 0 else 0
         )
@@ -500,6 +546,18 @@ class GPWNO(interface):
             if probe_dst.unique().size(0) != 0
             else 0
         )
+
+        # Probe feature
+        if self.pbc:
+            probe_edge = super_probe_flat[super_probe_dst] - atom_coord[probe_src]
+        else:
+            probe_edge = probe_flat[probe_dst] - atom_coord[probe_src]
+
+        # if self.pbc:
+        #     for batch_idx in range(grid.size(0)):
+        #         probe_edge[probe_batch[probe_dst] == batch_idx] = pbc_vec(
+        #             probe_edge[probe_batch[probe_dst] == batch_idx], cell[batch_idx]
+        #         )[0]
 
         probe_len = torch.norm(probe_edge, dim=-1) + 1e-8
         probe_edge_feat = o3.spherical_harmonics(
@@ -576,6 +634,143 @@ class GPWNO(interface):
                 )[0]
         mask = minimal_dist_grid > self.mask_cutoff
 
+        # atomic_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3).to(
+        #     batch.device)
+        atomic_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3, 10).to(
+            batch.device
+        )
+        alpha = torch.tensor([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]).to(
+            batch.device
+        )
+        alpha = alpha.reshape(1, 1, 10)
+        minimal_dist_probe = torch.zeros(grid.size(0), self.num_fourier**3).to(
+            batch.device
+        )
+
+        for batch_idx in range(grid.size(0)):
+            if self.pbc:
+                pr = probe.reshape(grid.size(0), -1, 3)
+                dist_min = torch.min(
+                    torch.norm(
+                        pr[batch_idx].unsqueeze(1).unsqueeze(1)  # (G,1,1,3)
+                        - atom_coord[batch == batch_idx]
+                        .unsqueeze(0)
+                        .unsqueeze(0)  # (1,1,N,3)
+                        + torch.stack(
+                            [
+                                i * cell[batch_idx][0]
+                                + j * cell[batch_idx][1]
+                                + k * cell[batch_idx][2]
+                                for i in [-1, 0, 1]
+                                for j in [-1, 0, 1]
+                                for k in [-1, 0, 1]
+                            ],
+                            dim=0,
+                        ).reshape(
+                            1, 27, 1, 3
+                        ),  # (1,27,1,3)
+                        dim=-1,
+                    ),
+                    dim=-2,
+                )[0]
+                if self.atomic_gauss_dist and self.atom_info is not None:
+                    self.atom_radius = self.atom_radius.to(batch.device)
+                    atomic_dist_probe[batch_idx] = torch.sum(
+                        torch.exp(
+                            -alpha
+                            * (
+                                (
+                                    dist_min
+                                    / (
+                                        self.atom_radius[
+                                            atom_types[batch == batch_idx]
+                                        ].unsqueeze(0)
+                                    )
+                                )
+                            ).unsqueeze(-1)
+                        ),
+                        dim=-2,
+                    )
+
+                minimal_dist_probe[batch_idx] = torch.min(
+                    dist_min,
+                    dim=-1,
+                )[0]
+
+        if self.input_infgcn:
+            probe_vec = probe.reshape(grid.size(0), -1, 3)[
+                batch
+            ] - atom_coord.unsqueeze(-2)
+
+            if self.pbc:
+                probe_vec, frac = pbc_vec(probe_vec, cell[batch])
+
+            density_res = torch.zeros(grid.size(0), self.num_fourier**3, 1).to(
+                batch.device
+            )
+            for batch_idx in range(grid.size(0)):
+                if self.model_sharing == False:
+                    density_res[batch_idx] = (
+                        (
+                            self.orbital(probe_vec[batch_idx])
+                            * infgcn_feat[batch_idx].unsqueeze(0)
+                        ).sum(dim=-1)
+                    ).reshape(-1, 1)
+                else:
+                    density_res[batch_idx] = (
+                        (
+                            self.orbital(probe_vec[batch_idx])
+                            * feat[batch_idx].unsqueeze(0)
+                        ).sum(dim=-1)
+                    ).reshape(-1, 1)
+            density_res = density_res.reshape(
+                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier, -1
+            )
+            if self.model_sharing == True:
+                infgcn_feat = feat
+
+            if self.residual and self.input_infgcn:
+                res_feat = infgcn_feat
+                probe_edge_feat_res = o3.spherical_harmonics(
+                    list(range(self.num_spherical + 1)),
+                    probe_edge / (probe_len[..., None] + 1e-8),
+                    normalize=False,
+                    normalization="integral",
+                )
+
+                residue = self.residue(
+                    (probe_src, probe_dst),
+                    res_feat,
+                    probe_edge_feat_res,
+                    probe_edge_embed,
+                    dim_size=probe_flat.size(0),
+                )
+                density_res = density_res + residue.reshape(
+                    grid.size(0),
+                    self.num_fourier,
+                    self.num_fourier,
+                    self.num_fourier,
+                    -1,
+                )
+
+            probe_feat = torch.cat([probe_feat, density_res], dim=-1)
+
+        if self.input_dist:
+            minimal_dist_probe = torch.exp(-minimal_dist_probe * 0.5).unsqueeze(-1)
+            minimal_dist_probe = minimal_dist_probe.reshape(
+                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier, 1
+            )
+
+            probe_feat = torch.cat([probe_feat, minimal_dist_probe], dim=-1)
+
+        if self.atomic_gauss_dist:
+            atomic_dist_probe = atomic_dist_probe.reshape(
+                grid.size(0), self.num_fourier, self.num_fourier, self.num_fourier, 10
+            )
+            # atomic_dist_probe = torch.exp(-atomic_dist_probe * 0.5).unsqueeze(-1)
+
+            probe_feat = torch.cat([probe_feat, atomic_dist_probe], dim=-1)
+
         fourier_grid = self.get_grid(probe_feat.shape, probe_feat.device)
         probe_feat = self.PWNO(probe_feat, fourier_grid)
         probe_feat = probe_feat.reshape(-1, probe_feat.size(-1))
@@ -587,10 +782,15 @@ class GPWNO(interface):
             .repeat_interleave(n_sample)
             .detach()
         )
-
+        # if self.probe_and_node:
+        #     probe_and_node = torch.cat([probe_flat, sample_flat], dim=0)
+        #     probe_and_node_batch = torch.cat([probe_batch, sample_batch], dim=0)
         probe_and_node = probe_flat
         probe_and_node_batch = probe_batch
 
+        import time
+
+        st2 = time.time()
         if self.pbc:
             sample_dst, super_probe_and_node_src = radius(
                 super_probe_flat,
@@ -608,6 +808,7 @@ class GPWNO(interface):
                 probe_and_node_batch,
                 sample_batch,
             )
+        st2 = time.time() - st2
         # Logging the degree of the graph
         avg_sample_degree = (
             sample_dst.size(0) / sample_flat.size(0) if sample_flat.size(0) != 0 else 0
@@ -629,6 +830,11 @@ class GPWNO(interface):
             )
         else:
             sample_edge = sample_flat[sample_dst] - probe_flat[probe_and_node_src]
+        # if self.pbc:
+        #     for batch_idx in range(grid.size(0)):
+        #         sample_edge[sample_batch[sample_dst] == batch_idx], frac = pbc_vec(
+        #             sample_edge[sample_batch[sample_dst] == batch_idx], cell[batch_idx]
+        #         )
         sample_len = torch.norm(sample_edge, dim=-1) + 1e-8
 
         sample_edge_feat = o3.spherical_harmonics(
@@ -646,6 +852,8 @@ class GPWNO(interface):
             cutoff=False,
         ).mul(self.radial_embed_size**0.5)
 
+        # if self.probe_and_node:
+        #     probe_and_node_feat = torch.cat([probe_feat, feat], dim=0)
         probe_and_node_feat = probe_feat
         scalar_field_gcn = self.scalar_field_gcn.forward_mean(
             (probe_and_node_src, sample_dst),
@@ -654,6 +862,8 @@ class GPWNO(interface):
             sample_edge_embed,
             dim_size=sample_flat.size(0),
         )
+
+        # torch.min(torch.norm(grid[batch_idx].unsqueeze(1).unsqueeze(1) - atom_coord[batch == batch_idx].unsqueeze(0).unsqueeze(0) + torch.stack([i * cell[batch_idx][0]+ j * cell[batch_idx][1]+ k * cell[batch_idx][2] for i in [-1, 0, 1]for j in [-1, 0, 1]for k in [-1, 0, 1]],dim=0,).reshape(1,27,1,3), dim=-1,),dim=[-1, -2],)[0]> self.mask_cutoff
 
         if self.residual:
             grid_flat = grid.view(-1, 3)
@@ -744,6 +954,7 @@ class GPWNO(interface):
         log_dict["coefficient_field"] = density - scalar_field
         log_dict["scalar_field"] = scalar_field
         log_dict["probe"] = probe_log
+        log_dict["time"] = st1 + st2
 
         self.draw_hist = True
 

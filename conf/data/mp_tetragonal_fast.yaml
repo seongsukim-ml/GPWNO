@@ -29,6 +29,9 @@ pbc: false
 
 datamodule:
   _target_: source.datamodule.datamodule.CrystalDatamodule
+  temp_folder: ${expname}
+  use_max_cell: ${model.use_max_cell}
+  equivariant_frame: ${model.equivariant_frame}
   probe_cutoff: ${model.probe_cutoff}
   num_fourier: ${model.num_fourier}
   model_pbc: ${model.pbc}

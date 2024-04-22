@@ -1,3 +1,20 @@
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=qm9 \
+    model=GPWNO_QM9 \
+    postfix=time \
+    train.monitor_metric='train/loss' \
+    data.train_max_iter=1 \
+    data.num_workers=32 \
+    logging=default ;\
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=qm9 \
+    model=infgcn \
+    postfix=time \
+    train.monitor_metric='train/loss' \
+    data.train_max_iter=1 \
+    data.num_workers=32 \
+    logging=default
+
 CUDA_VISIBLE_DEVICES=2 python run.py --config-name=qm9 \
     postfix=rep \
     data.rotate=True \

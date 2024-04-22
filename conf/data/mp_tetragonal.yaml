@@ -26,6 +26,8 @@ extension: chgcar
 compression: Null
 rotate: false
 pbc: false
+num_test_samples: Null
+
 
 datamodule:
   _target_: source.datamodule.datamodule.CrystalDatamodule
@@ -65,6 +67,7 @@ datamodule:
       _target_: source.datasets.density.DensityDataset
       split : test
       n_samples: Null
+      num_samples: ${data.num_test_samples}
       shuffle: False
       root: ${data.root}
       split_file: ${data.split_file}

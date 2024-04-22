@@ -9,6 +9,28 @@ CUDA_VISIBLE_DEVICES=7 python run.py -m \
     data.num_workers=32 \
     logging=draw
 
+CUDA_VISIBLE_DEVICES=7 python run.py -m \
+    --config-name=mp \
+    model=GPWNO_pbc \
+    data.train_max_iter=1 \
+    train.monitor_metric='train/loss'\
+    data=mp_tetragonal \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw \
+    data.num_test_samples=20
+
+CUDA_VISIBLE_DEVICES=6 python run.py -m \
+    --config-name=mp \
+    model=infgcn_pbc \
+    data.train_max_iter=1 \
+    train.monitor_metric='train/loss'\
+    data=mp_tetragonal \
+    postfix=tt \
+    data.num_workers=32 \
+    logging=draw \
+    data.num_test_samples=20
+
 CUDA_VISIBLE_DEVICES=7 python run.py \
     --config-name=mp \
     model=GPWNO_pbc \

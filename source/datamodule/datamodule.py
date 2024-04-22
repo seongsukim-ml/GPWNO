@@ -128,6 +128,7 @@ class CrystalDatamodule(pl.LightningDataModule):
         )
 
     def test_dataloader(self):
+        # test_col = instantiate(self.collate_fn, n_samples=self.datasets.test.n_samples)
         test_col = instantiate(self.collate_fn, n_samples=self.datasets.test.n_samples)
         return DataLoader(
             self.dataset_test,

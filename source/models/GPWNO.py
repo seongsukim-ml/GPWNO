@@ -943,7 +943,7 @@ class GPWNO(interface):
         log_dict["scalar_field"] = scalar_field
         log_dict["probe"] = probe_log
 
-        self.draw_hist = True
+        self.draw_hist = False
 
         return log_dict
 

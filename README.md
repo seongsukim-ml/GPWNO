@@ -20,9 +20,8 @@ conda activate GPWNO
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 pip install pyg-lib torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
 pip install numpy==1.23.4 scipy==1.9.3 matplotlib==3.7 tqdm
-pip install hydra-core lightning wandb
+pip install hydra-core lightning wandb omegaconf
 pip install lz4 pymatgen mp-api python-dotenv PyYAML easydict
-pip install matplotlib==3.7 omegaconf
 pip install e3nn
 ```
 

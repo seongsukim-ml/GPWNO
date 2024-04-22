@@ -107,6 +107,7 @@ class DensityDataset(Dataset):
             if reverse_order:
                 self.file_list = self.file_list[::-1]
             if num_samples is not None:
+                print(f"Using {num_samples} samples")
                 self.file_list = self.file_list[:num_samples]
         with open(atom_file) as f:
             atom_info = json.load(f)

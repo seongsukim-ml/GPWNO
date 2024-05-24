@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/lightning-792EE5?style=flat-square&logo=lightning&logoColor=white"/>
 </p>
 
-# Gaussian plane-wave neural operator (GPWNO).
+# Gaussian plane-wave neural operator (GPWNO) [ICML 2024].
 By Seongsu Kim, Feb, 2024 [[arxiv]](https://arxiv.org/abs/2402.04278) [[PDF]](https://arxiv.org/pdf/2402.04278.pdf)
 
 🌟 This repository contains an implementation of the paper ***Gaussian plane-wave neural operator for electron density estimation***. The code implementation of the model is mainly inspired by the [InfGCN](https://github.com/ccr-cheng/infgcn-pytorch) by Chaoran Cheng.

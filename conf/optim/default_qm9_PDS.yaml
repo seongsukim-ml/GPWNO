@@ -1,0 +1,18 @@
+optimizer:
+  #  Adam-oriented deep learning
+  _target_: torch.optim.Adam
+  #  These are all default parameters for the Adam optimizer
+  lr: 1e-2
+  betas: [ 0.9, 0.999 ]
+  eps: 1e-08
+  weight_decay: 1e-12
+
+use_lr_scheduler: True
+
+lr_scheduler_interval: "step" # defaults epoch
+lr_scheduler_freq: 1
+
+lr_scheduler:
+  # _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  _target_: source.common.scheduler.PowerDecayScheduler
+  beta: 1e4

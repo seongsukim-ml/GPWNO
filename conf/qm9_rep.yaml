@@ -1,0 +1,31 @@
+expname: ${model.name}_${postfix}
+postfix: ""
+project: GPWNO_QM9
+
+pdir: /home/holywater2/crystal
+
+# metadata specialised for each experiment
+core:
+  version: 1.0.0
+  tags:
+    - ${now:%Y-%m-%d}
+
+hydra:
+  run:
+    dir: ${oc.env:HYDRA_JOBS}/singlerun/${now:%Y-%m-%d-%H-%M-%S}/${expname}/
+
+  sweep:
+    dir: ${oc.env:HYDRA_JOBS}/multirun/${now:%Y-%m-%d}/${expname}/
+    subdir: ${hydra.job.num}_${hydra.job.id}
+
+  job:
+    env_set:
+      WANDB_START_METHOD: thread
+      WANDB_DIR: ${oc.env:WANDB_DIR}
+
+defaults:
+  - data: default_qm9_1e6
+  - logging: default
+  - model: GPWNO_QM9_L1
+  - optim: default_qm9_PDS
+  - train: default

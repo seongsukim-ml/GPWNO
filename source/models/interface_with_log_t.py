@@ -21,12 +21,7 @@ class interface(BaseModule):
         super().__init__(*args, **kwargs)
         self.no_log = ["scalar_field", "coefficient_field", "probe"]
         self.draw_hist = False
-        if criterion == "L2" or criterion == "mse":
-            print("[Model] Using MSE/L2 Loss")
-            self.criterion = nn.MSELoss()
-        elif criterion == "L1" or criterion == "mae":
-            print("[Model] Using MAE/L1 Loss")
-            self.criterion = nn.L1Loss()
+        self.criterion = nn.L1Loss()
 
     def forward(self, atom_types, atom_coord, grid, batch, infos):
         """

@@ -35,10 +35,13 @@ class BaseModule(pl.LightningModule):
         )
         return {
             "optimizer": opt,
-            "lr_scheduler": scheduler,
-            "frequency": 1,
-            "strict": False,
-            "monitor": "val/loss",
+            "lr_scheduler": {
+                "scheduler": scheduler,
+                "interval": getattr(self.hparams.optim,"lr_scheduler_interval", "epoch"),
+                "frequency": getattr(self.hparams.optim,"lr_scheduler_freq",1),
+                "strict": False,
+                "monitor": self.hparams.train.monitor_metric,
+            },
         }
 
 

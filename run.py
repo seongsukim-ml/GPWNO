@@ -59,6 +59,7 @@ def run(cfg: DictConfig) -> None:
         optim=cfg.optim,
         data=cfg.data,
         logging=cfg.logging,
+        train=cfg.train,
         _recursive_=False,
     )
 

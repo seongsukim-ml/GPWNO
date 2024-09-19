@@ -22,7 +22,7 @@ pip install pyg-lib torch-scatter torch-sparse torch-cluster torch-spline-conv t
 pip install numpy==1.23.4 scipy==1.9.3 matplotlib==3.7 tqdm
 pip install hydra-core lightning wandb omegaconf
 pip install lz4 pymatgen mp-api python-dotenv PyYAML easydict
-pip install e3nn
+pip install e3nn mp-api
 ```
 
 ## Directory and Files
@@ -98,6 +98,8 @@ You can download all the MP datasets with this code
 python scripts/MP/download_mp.py
 ```
 
+Before download the dataset, you have to fix the mp api code in the file. You can get the api from the [Material Project](https://next-gen.materialsproject.org/api)
+
 Note that the size of the MP dataset is about 10T. We assume the data is stored in the `../dataset_mp` with the data split we attach.
 FYI, it took about 7 days to download all for me.
 
@@ -113,8 +115,7 @@ And also you have to fix the path of the configure in the `conf/data`. Other scr
 python run.py --config-name=md \
     model=GPWNO_MD \
     data.num_workers=32 \
-    logging=draw \
-    data.mol_name=benzene
+    data.mol_name=benzene # ethanol, benzene, phenol, resorcinol, ethane, malonaldehyde
 ```
 
 ### QM9
@@ -140,11 +141,19 @@ If you find this code useful, please cite our paper
 ```
 @misc{kim2024gaussian,
       title={Gaussian Plane-Wave Neural Operator for Electron Density Estimation}, 
-      author={Seongsu Kim and Sungsoo Ahn},
+      author={Kim, Seongsu and Ahn, Sungsoo},
       year={2024},
       eprint={2402.04278},
       archivePrefix={arXiv},
       primaryClass={physics.chem-ph}
+}
+```
+or
+```
+@inproceedings{kimgaussian,
+  title={Gaussian Plane-Wave Neural Operator for Electron Density Estimation},
+  author={Kim, Seongsu and Ahn, Sungsoo},
+  booktitle={Forty-first International Conference on Machine Learning}
 }
 ```
 

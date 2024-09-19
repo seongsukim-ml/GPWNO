@@ -1,4 +1,4 @@
-To download the charge density of the Materials Project, you can use the `download_mp.py` code. In the middle of the code, you have to write your own api key to download the mp-dataset. The api key can be obtained in the (official MP)[https://next-gen.materialsproject.org/api] sites. To download code simply, use `python download_mp.py`.
+To download the charge density of the Materials Project, you can use the `download_mp.py` code. In the middle of the code, you have to write your own api key to download the mp-dataset. The api key can be obtained in the [Material Project](https://next-gen.materialsproject.org/api) sites. To download code simply, use `python download_mp.py`.
 
 `mpids_query.json` includes the all possible materials ids that has `HasProps.charge_density` property. The length of the total mpids are 120,775. If this file causes error, then give options `--download_mpids=True`. This flag will rebuild the mpids_query.
 
